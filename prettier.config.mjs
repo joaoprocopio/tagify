@@ -12,6 +12,10 @@ const prettierConfig = {
     tabWidth: 4,
     trailingComma: "all",
     useTabs: false,
+    plugins: [
+        "@trivago/prettier-plugin-sort-imports",
+        "prettier-plugin-tailwindcss",
+    ],
 }
 
 export default prettierConfig
