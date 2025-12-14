@@ -194,6 +194,7 @@
 @theme inline {
     /* Spacing */
     --spacing-layout-header: calc(var(--spacing) * 11);
+    --spacing-layout-subheader: calc(var(--spacing) * 10);
 
     /* Radii */
     --radius: 0.625rem;
