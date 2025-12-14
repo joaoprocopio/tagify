@@ -2,6 +2,7 @@ import "@/assets/styles/tailwind.css"
 import { AppSidebar } from "@/components/app-sidebar"
 import { ThemeProvider } from "@/lib/theme/provider"
 import { SidebarInset, SidebarProvider } from "@/lib/ui/components/sidebar"
+import { Toaster } from "@/lib/ui/components/sonner"
 import type { Metadata } from "next"
 import { Geist, Geist_Mono } from "next/font/google"
 
@@ -37,7 +38,10 @@ export default function RootLayout({
                     defaultTheme="system">
                     <SidebarProvider>
                         <AppSidebar />
+
                         <SidebarInset>{children}</SidebarInset>
+
+                        <Toaster />
                     </SidebarProvider>
                 </ThemeProvider>
             </body>
