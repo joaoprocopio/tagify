@@ -1,4 +1,4 @@
-import "./global.css"
+import "@/assets/styles/tailwind.css"
 import { AppSidebar } from "@/components/app-sidebar"
 import { ThemeProvider } from "@/lib/theme/provider"
 import { SidebarInset, SidebarProvider } from "@/lib/ui/components/sidebar"

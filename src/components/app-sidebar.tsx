@@ -1,6 +1,6 @@
 "use client"
 
-import dengun from "@/assets/dengun.jpeg"
+import dengun from "@/assets/images/dengun.jpeg"
 import { Avatar } from "@/lib/ui/components/avatar"
 import {
     DropdownMenu,
