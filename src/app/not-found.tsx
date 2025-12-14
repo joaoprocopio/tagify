@@ -12,7 +12,7 @@ export default function NotFound() {
         <>
             <div className="h-layout-header border-b" />
 
-            <div className="container mx-auto py-24">
+            <div className="container py-24">
                 <Empty>
                     <EmptyHeader>
                         <EmptyMedia

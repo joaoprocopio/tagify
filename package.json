@@ -4,6 +4,8 @@
     "version": "0.0.1",
     "private": true,
     "scripts": {
+        "clean": "git clean -xdf .next next-env.d.ts node_modules",
+        "ci": "pnpm store prune --force && pnpm clean && pnpm install --frozen-lockfile",
         "dev": "next dev",
         "build": "next build",
         "start": "next start",
@@ -40,6 +42,7 @@
         "@radix-ui/react-toggle-group": "^1.1.11",
         "@radix-ui/react-tooltip": "^1.2.8",
         "@tanstack/react-query": "^5.90.12",
+        "@tanstack/react-query-devtools": "^5.91.1",
         "class-variance-authority": "^0.7.1",
         "clsx": "^2.1.1",
         "cmdk": "^1.1.1",

@@ -1,4 +1,8 @@
-import type { DefaultError, MutationKey, UseMutationOptions } from "@/lib/cache"
+import type {
+    DefaultError,
+    MutationKey,
+    UseMutationOptions,
+} from "@tanstack/react-query"
 
 export type Namespace = string
 export type Definition = Record<Namespace, AnyFn>

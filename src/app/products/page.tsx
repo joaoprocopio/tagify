@@ -1,10 +1,11 @@
 import { ProductsHeader } from "@/components/products-header"
+import { ProductsTable } from "@/components/products-table"
 
 export default function Products() {
     return (
-        <div>
+        <>
             <ProductsHeader />
-            <main className="container"></main>
-        </div>
+            <ProductsTable />
+        </>
     )
 }

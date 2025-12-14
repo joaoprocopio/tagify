@@ -193,6 +193,7 @@
 
 @theme inline {
     /* Spacing */
+    --spacing-container: calc(var(--spacing) * 6);
     --spacing-layout-header: calc(var(--spacing) * 11);
     --spacing-layout-subheader: calc(var(--spacing) * 10);
 
@@ -258,5 +259,5 @@
 }
 
 @utility container {
-    @apply mx-auto px-6;
+    @apply px-container mx-auto;
 }

@@ -1,13 +1,15 @@
 "use client"
 
 import { Button } from "@/lib/ui/components/button"
-import { Input } from "@/lib/ui/components/input"
 import {
     InputGroup,
     InputGroupAddon,
     InputGroupInput,
 } from "@/lib/ui/components/input-group"
+import { Kbd, KbdGroup } from "@/lib/ui/components/kbd"
 import { SidebarTrigger, useSidebar } from "@/lib/ui/components/sidebar"
+import { platformCache } from "@/state/platform/cache"
+import { useQuery } from "@tanstack/react-query"
 import {
     Archive,
     ListFilter,
@@ -20,76 +22,99 @@ import {
 
 export function ProductsHeader() {
     const sidebar = useSidebar()
+    const isMac = useQuery(platformCache.queries.isMac())
 
     return (
-        <>
-            <div className="h-layout-header container flex items-center gap-x-2 border-b">
-                <SidebarTrigger hidden={sidebar.open} />
+        <header>
+            <div className="h-layout-header border-b">
+                <div className="px-container flex h-full shrink-0 items-center gap-x-2">
+                    <SidebarTrigger
+                        className="-ml-1.5 aria-hidden:hidden"
+                        aria-hidden={sidebar.open}
+                    />
 
-                <h1 className="text-xs font-semibold">Products</h1>
+                    <h1 className="text-xs font-semibold">Products</h1>
 
-                <div className="ml-3 flex items-center gap-x-2">
+                    <div className="ml-3 flex items-center gap-x-2">
+                        <Button
+                            className="border"
+                            size="xs"
+                            variant="secondary">
+                            <Squircle />
+                            <span>All</span>
+                        </Button>
+
+                        <Button
+                            className="border"
+                            size="xs"
+                            variant="outline">
+                            <Tag />
+                            <span>Active</span>
+                        </Button>
+
+                        <Button
+                            className="border"
+                            size="xs"
+                            variant="outline">
+                            <SquircleDashed />
+                            <span>Draft</span>
+                        </Button>
+
+                        <Button
+                            className="border"
+                            size="xs"
+                            variant="outline">
+                            <Archive />
+                            <span>Archived</span>
+                        </Button>
+                    </div>
+
+                    <InputGroup className="ml-auto h-7 w-56">
+                        <InputGroupAddon
+                            className="pl-2"
+                            align="inline-start">
+                            <Search />
+                        </InputGroupAddon>
+                        <InputGroupInput
+                            className="h-full"
+                            placeholder="Search"
+                        />
+                        {isMac.isSuccess && (
+                            <InputGroupAddon
+                                className="pr-2"
+                                align="inline-end">
+                                <KbdGroup>
+                                    {/* TODO: trocar entre ctrl e cmd entre user agents */}
+                                    {isMac.data ? (
+                                        <Kbd className="text-4xs">⌘K</Kbd>
+                                    ) : (
+                                        <Kbd className="text-4xs">CTRL + K</Kbd>
+                                    )}
+                                </KbdGroup>
+                            </InputGroupAddon>
+                        )}
+                    </InputGroup>
+                </div>
+            </div>
+
+            <div className="h-layout-subheader border-b">
+                <div className="px-container flex h-full shrink-0 items-center justify-between gap-x-2">
                     <Button
-                        className="border"
+                        className="-ml-2.5"
                         size="xs"
-                        variant="secondary">
-                        <Squircle />
-                        <span>All</span>
+                        variant="ghost">
+                        <ListFilter />
+                        <span>Filter</span>
                     </Button>
 
                     <Button
-                        className="border"
                         size="xs"
                         variant="outline">
-                        <Tag />
-                        <span>Active</span>
-                    </Button>
-
-                    <Button
-                        className="border"
-                        size="xs"
-                        variant="outline">
-                        <SquircleDashed />
-                        <span>Draft</span>
-                    </Button>
-
-                    <Button
-                        className="border"
-                        size="xs"
-                        variant="outline">
-                        <Archive />
-                        <span>Archived</span>
+                        <SlidersHorizontal />
+                        <span>Display</span>
                     </Button>
                 </div>
-
-                <InputGroup className="ml-auto h-7 w-56">
-                    <InputGroupAddon
-                        className="pl-2"
-                        align="inline-start">
-                        <Search />
-                    </InputGroupAddon>
-                    <InputGroupInput
-                        className="h-full"
-                        placeholder="Search"
-                    />
-                </InputGroup>
             </div>
-
-            <div className="h-layout-subheader container flex items-center justify-between gap-x-2 border-b pl-3.5">
-                <Button
-                    size="xs"
-                    variant="ghost">
-                    <ListFilter />
-                    <span>Filter</span>
-                </Button>
-
-                <Button
-                    size="xs"
-                    variant="outline">
-                    <SlidersHorizontal />
-                    <span>Display</span>
-                </Button>
-            </div>
-        </>
+        </header>
     )
 }
