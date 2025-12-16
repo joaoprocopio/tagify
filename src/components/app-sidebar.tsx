@@ -22,15 +22,19 @@ import {
 } from "@/lib/ui/components/sidebar"
 import { isNil } from "@/utils/is"
 import {
+    BadgePercent,
     ChartNoAxesColumn,
     ChevronDown,
+    Home,
     Inbox,
+    Landmark,
     LogOut,
     LucideIcon,
     Package,
     Search,
     Settings,
     ShoppingBag,
+    SquareMousePointer,
     User,
 } from "lucide-react"
 import Image from "next/image"
@@ -51,14 +55,19 @@ const groups: LinkGroup[] = [
     {
         links: [
             {
-                icon: Search,
-                href: "/search",
-                label: "Search",
+                icon: Home,
+                href: "/home",
+                label: "Home",
             },
             {
                 icon: Inbox,
                 href: "/inbox",
                 label: "Inbox",
+            },
+            {
+                icon: Search,
+                href: "/search",
+                label: "Search",
             },
         ],
     },
@@ -81,6 +90,21 @@ const groups: LinkGroup[] = [
                 label: "Customers",
             },
             {
+                icon: SquareMousePointer,
+                href: "/marketing",
+                label: "Marketing",
+            },
+            {
+                icon: BadgePercent,
+                href: "/discount",
+                label: "Discount",
+            },
+            {
+                icon: Landmark,
+                href: "/finance",
+                label: "Finance",
+            },
+            {
                 icon: ChartNoAxesColumn,
                 href: "/analytics",
                 label: "Analytics",
@@ -94,7 +118,7 @@ export function AppSidebar() {
 
     return (
         <Sidebar>
-            <SidebarHeader className="h-layout-header flex-row items-center justify-between py-0">
+            <SidebarHeader className="h-half-header flex-row items-center justify-between py-0">
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <SidebarMenuButton className="w-fit">

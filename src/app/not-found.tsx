@@ -10,8 +10,6 @@ import { Sparkle } from "lucide-react"
 export default function NotFound() {
     return (
         <>
-            <div className="h-layout-header border-b" />
-
             <div className="container py-24">
                 <Empty>
                     <EmptyHeader>

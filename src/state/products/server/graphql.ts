@@ -3,6 +3,7 @@ query ListProducts {
   products (first: 20) {
     edges {
       node {
+        id
         title
         status
         tags
@@ -11,9 +12,6 @@ query ListProducts {
         productType
         variantsCount {
           count
-        }
-        category {
-          name
         }
         media(first: 1) {
           nodes {

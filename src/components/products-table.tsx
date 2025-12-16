@@ -1,47 +1,148 @@
 "use client"
 
-import { Checkbox } from "@/lib/ui/components/checkbox"
+import type { TGetProductsV1Response } from "@/app/api/v1/products/route"
+import { Badge } from "@/lib/ui/components/badge"
 import {
     Table,
     TableBody,
+    TableCell,
     TableContainer,
     TableHead,
     TableHeader,
     TableRow,
 } from "@/lib/ui/components/table"
 import { productsQueries } from "@/state/products/query"
+import { isNil } from "@/utils/is"
+import { capitalizeFirst } from "@/utils/str"
 import { useQuery } from "@tanstack/react-query"
+import { ImageIcon } from "lucide-react"
+import Image from "next/image"
+import { useMemo } from "react"
+import { thumbHashToDataURL } from "thumbhash"
 
 export function ProductsTable() {
     const products = useQuery(productsQueries.list())
 
     return (
         products.isSuccess && (
-            <TableContainer className="container">
+            <TableContainer>
                 <Table>
-                    <TableHeader>
+                    <TableHeader className="bg-background/60 top-header sticky inset-x-0 z-1 backdrop-blur">
                         <TableRow>
-                            <TableHead>
-                                <Checkbox />
-                            </TableHead>
-                            <TableHead>Thumbnail</TableHead>
-                            <TableHead>Produto</TableHead>
+                            <TableHead className="pl-container w-10"></TableHead>
+                            <TableHead>Product</TableHead>
                             <TableHead>Status</TableHead>
-                            <TableHead>Categoria</TableHead>
                             <TableHead>Tags</TableHead>
-                            <TableHead>Estoque</TableHead>
+                            <TableHead className="pr-container">
+                                Stock
+                            </TableHead>
                         </TableRow>
                     </TableHeader>
 
-                    <TableBody></TableBody>
+                    <TableBody>
+                        {products.data.data.products.edges.map((product) => (
+                            <ProductsTableRow
+                                key={product.node.id}
+                                product={product.node}
+                            />
+                        ))}
+                    </TableBody>
                 </Table>
-
-                <div>
-                    {products.isSuccess && (
-                        <pre>{JSON.stringify(products.data, null, 4)}</pre>
-                    )}
-                </div>
             </TableContainer>
         )
+    )
+}
+
+function ProductsTableRow({
+    product,
+}: {
+    product: TGetProductsV1Response["data"]["products"]["edges"][number]["node"]
+}) {
+    const thumb = useMemo(
+        () => product.media.nodes.at(0)?.preview?.image,
+        [product.media.nodes],
+    )
+
+    const hashURL = useMemo(() => {
+        if (isNil(thumb?.thumbhash)) {
+            return undefined
+        }
+
+        const bytes = atob(thumb.thumbhash)
+        const buffer = new Uint8Array(bytes.length).map((_, index) =>
+            bytes.charCodeAt(index),
+        )
+
+        return thumbHashToDataURL(buffer)
+    }, [thumb])
+
+    return (
+        <TableRow className="h-16">
+            <TableCell className="pl-container">
+                <div className="relative size-10 overflow-hidden rounded-lg border">
+                    {thumb ? (
+                        <Image
+                            className="absolute inset-0 size-full"
+                            src={thumb.url}
+                            alt={thumb.altText || "This image has no alt."}
+                            width={thumb.width || 200}
+                            height={thumb.height || 200}
+                            placeholder="blur"
+                            blurDataURL={hashURL}
+                        />
+                    ) : (
+                        <div className="absolute inset-0 flex size-full items-center justify-center">
+                            <ImageIcon className="text-muted-foreground size-4.5" />
+                        </div>
+                    )}
+                </div>
+            </TableCell>
+            <TableCell>{product.title}</TableCell>
+            <TableCell>
+                <Badge variant="secondary">
+                    {capitalizeFirst(product.status)}
+                </Badge>
+            </TableCell>
+            <TableCell>
+                <div className="flex flex-wrap gap-1.5">
+                    {product.tags.map((tag) => (
+                        <Badge
+                            key={tag}
+                            variant="secondary">
+                            {tag}
+                        </Badge>
+                    ))}
+                </div>
+            </TableCell>
+            <TableCell
+                className="group pr-container"
+                data-empty={product.totalInventory === 0}>
+                {product.tracksInventory ? (
+                    <>
+                        <span className="group-data-[empty=true]:text-destructive">
+                            <span className="tabular-nums">
+                                {product.totalInventory}
+                            </span>{" "}
+                            in stock
+                        </span>
+                        {Boolean(
+                            !isNil(product.variantsCount?.count) &&
+                            product.variantsCount.count > 1,
+                        ) && (
+                            <span>
+                                {" "}
+                                for{" "}
+                                <span className="tabular-nums">
+                                    {product.variantsCount!.count}
+                                </span>{" "}
+                                variants
+                            </span>
+                        )}
+                    </>
+                ) : (
+                    <span>Stock not tracked</span>
+                )}
+            </TableCell>
+        </TableRow>
     )
 }
