@@ -213,7 +213,7 @@
     --accent: var(--gray-5);
     --accent-foreground: var(--gray-11);
     --destructive: oklch(66.338% 0.17739 22.851);
-    --border: var(--gray-3);
+    --border: var(--gray-a5);
     --input: var(--gray-4);
     --ring: var(--gray-5);
     --chart-1: oklch(0.488 0.243 264.376);
@@ -244,8 +244,8 @@
 
     /* Spacing */
     --spacing-container: calc(var(--spacing) * 6);
-    --spacing-header: calc(var(--spacing) * 20);
-    --spacing-half-header: calc(var(--spacing) * 10);
+    --spacing-header: calc(var(--spacing) * 21);
+    --spacing-half-header: calc(var(--spacing-header) / 2);
 
     /* Colors */
     --color-background: var(--background);

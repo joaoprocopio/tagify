@@ -9,20 +9,36 @@ import {
 import { Kbd, KbdGroup } from "@/lib/ui/components/kbd"
 import { SidebarTrigger, useSidebar } from "@/lib/ui/components/sidebar"
 import { platformQueries } from "@/state/platform/query"
-import { useQuery } from "@tanstack/react-query"
 import {
-    Archive,
-    ListFilter,
-    Search,
-    SlidersHorizontal,
-    Squircle,
-    SquircleDashed,
-    Tag,
-} from "lucide-react"
+    ProductSearchParams,
+    ProductStatusFilter,
+    TProductStatusFilter,
+} from "@/state/products/constants"
+import { useQuery } from "@tanstack/react-query"
+import { ListFilter, Search, SlidersHorizontal } from "lucide-react"
+import { usePathname, useRouter, useSearchParams } from "next/navigation"
+import * as React from "react"
 
 export function ProductsHeader() {
+    const router = useRouter()
+    const pathname = usePathname()
+    const searchParams = useSearchParams()
+
     const sidebar = useSidebar()
     const isMac = useQuery(platformQueries.isMac())
+
+    const selectedStatus = React.useMemo(
+        () =>
+            searchParams.get(ProductSearchParams.status.value) ||
+            ProductSearchParams.status.default.value,
+        [searchParams],
+    )
+
+    const selectStatus = (status: TProductStatusFilter) => {
+        const params = new URLSearchParams(searchParams.toString())
+        params.set(ProductSearchParams.status.value, status)
+        router.push(`${pathname}?${params.toString()}`)
+    }
 
     return (
         <header className="bg-background/60 h-header sticky inset-x-0 top-0 z-1 flex shrink-0 flex-col border-b backdrop-blur">
@@ -35,37 +51,21 @@ export function ProductsHeader() {
                 <h1 className="text-xs font-semibold">Products</h1>
 
                 <div className="ml-3 flex items-center gap-x-2">
-                    <Button
-                        className="border"
-                        size="xs"
-                        variant="secondary">
-                        <Squircle />
-                        <span>All</span>
-                    </Button>
-
-                    <Button
-                        className="border"
-                        size="xs"
-                        variant="outline">
-                        <Tag />
-                        <span>Active</span>
-                    </Button>
-
-                    <Button
-                        className="border"
-                        size="xs"
-                        variant="outline">
-                        <SquircleDashed />
-                        <span>Draft</span>
-                    </Button>
-
-                    <Button
-                        className="border"
-                        size="xs"
-                        variant="outline">
-                        <Archive />
-                        <span>Archived</span>
-                    </Button>
+                    {Object.values(ProductStatusFilter).map((status) => (
+                        <Button
+                            key={status.value}
+                            className="border"
+                            size="xs"
+                            variant={
+                                selectedStatus === status.value
+                                    ? "secondary"
+                                    : "outline"
+                            }
+                            onClick={() => selectStatus(status.value)}>
+                            <status.icon />
+                            <span>{status.label}</span>
+                        </Button>
+                    ))}
                 </div>
 
                 <InputGroup className="ml-auto h-7 w-56">

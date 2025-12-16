@@ -17,19 +17,21 @@ import {
     TooltipProvider,
     TooltipTrigger,
 } from "@/lib/ui/components/tooltip"
+import {
+    SIDEBAR_COOKIE_MAX_AGE_IN_DAYS,
+    SIDEBAR_COOKIE_NAME,
+    SIDEBAR_KEYBOARD_SHORTCUT,
+    SIDEBAR_WIDTH,
+    SIDEBAR_WIDTH_ICON,
+    SIDEBAR_WIDTH_MOBILE,
+} from "@/lib/ui/constants/sidebar"
 import { useIsMobile } from "@/lib/ui/hooks"
 import { cn } from "@/lib/ui/utils"
 import { Slot } from "@radix-ui/react-slot"
 import { cva, type VariantProps } from "class-variance-authority"
+import cookie from "js-cookie"
 import { PanelLeftIcon } from "lucide-react"
 import * as React from "react"
-
-const SIDEBAR_COOKIE_NAME = "sidebar_state"
-const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7
-const SIDEBAR_WIDTH = "16rem"
-const SIDEBAR_WIDTH_MOBILE = "18rem"
-const SIDEBAR_WIDTH_ICON = "3rem"
-const SIDEBAR_KEYBOARD_SHORTCUT = "b"
 
 type SidebarContextProps = {
     state: "expanded" | "collapsed"
@@ -53,7 +55,7 @@ function useSidebar() {
 }
 
 function SidebarProvider({
-    defaultOpen = true,
+    defaultOpen = cookie.get(SIDEBAR_COOKIE_NAME) !== "false",
     open: openProp,
     onOpenChange: setOpenProp,
     className,
@@ -75,14 +77,17 @@ function SidebarProvider({
     const setOpen = React.useCallback(
         (value: boolean | ((value: boolean) => boolean)) => {
             const openState = typeof value === "function" ? value(open) : value
+
             if (setOpenProp) {
                 setOpenProp(openState)
             } else {
                 _setOpen(openState)
             }
 
-            // This sets the cookie to keep the sidebar state.
-            document.cookie = `${SIDEBAR_COOKIE_NAME}=${openState}; path=/; max-age=${SIDEBAR_COOKIE_MAX_AGE}`
+            cookie.set(SIDEBAR_COOKIE_NAME, String(openState), {
+                path: "/",
+                expires: SIDEBAR_COOKIE_MAX_AGE_IN_DAYS,
+            })
         },
         [setOpenProp, open],
     )

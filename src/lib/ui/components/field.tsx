@@ -4,7 +4,7 @@ import { Label } from "@/lib/ui/components/label"
 import { Separator } from "@/lib/ui/components/separator"
 import { cn } from "@/lib/ui/utils"
 import { cva, type VariantProps } from "class-variance-authority"
-import { useMemo } from "react"
+import * as React from "react"
 
 function FieldSet({ className, ...props }: React.ComponentProps<"fieldset">) {
     return (
@@ -188,7 +188,7 @@ function FieldError({
 }: React.ComponentProps<"div"> & {
     errors?: Array<{ message?: string } | undefined>
 }) {
-    const content = useMemo(() => {
+    const content = React.useMemo(() => {
         if (children) {
             return children
         }

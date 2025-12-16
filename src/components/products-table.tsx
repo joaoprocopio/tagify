@@ -17,7 +17,7 @@ import { capitalizeFirst } from "@/utils/str"
 import { useQuery } from "@tanstack/react-query"
 import { ImageIcon } from "lucide-react"
 import Image from "next/image"
-import { useMemo } from "react"
+import * as React from "react"
 import { thumbHashToDataURL } from "thumbhash"
 
 export function ProductsTable() {
@@ -32,10 +32,8 @@ export function ProductsTable() {
                             <TableHead className="pl-container w-10"></TableHead>
                             <TableHead>Product</TableHead>
                             <TableHead>Status</TableHead>
-                            <TableHead>Tags</TableHead>
-                            <TableHead className="pr-container">
-                                Stock
-                            </TableHead>
+                            <TableHead>Stock</TableHead>
+                            <TableHead className="pr-container">Tags</TableHead>
                         </TableRow>
                     </TableHeader>
 
@@ -58,12 +56,12 @@ function ProductsTableRow({
 }: {
     product: TGetProductsV1Response["data"]["products"]["edges"][number]["node"]
 }) {
-    const thumb = useMemo(
+    const thumb = React.useMemo(
         () => product.media.nodes.at(0)?.preview?.image,
         [product.media.nodes],
     )
 
-    const hashURL = useMemo(() => {
+    const hashURL = React.useMemo(() => {
         if (isNil(thumb?.thumbhash)) {
             return undefined
         }
@@ -103,19 +101,9 @@ function ProductsTableRow({
                     {capitalizeFirst(product.status)}
                 </Badge>
             </TableCell>
-            <TableCell>
-                <div className="flex flex-wrap gap-1.5">
-                    {product.tags.map((tag) => (
-                        <Badge
-                            key={tag}
-                            variant="secondary">
-                            {tag}
-                        </Badge>
-                    ))}
-                </div>
-            </TableCell>
+
             <TableCell
-                className="group pr-container"
+                className="group"
                 data-empty={product.totalInventory === 0}>
                 {product.tracksInventory ? (
                     <>
@@ -142,6 +130,17 @@ function ProductsTableRow({
                 ) : (
                     <span>Stock not tracked</span>
                 )}
+            </TableCell>
+            <TableCell className="pr-container">
+                <div className="flex flex-wrap gap-1.5">
+                    {product.tags.map((tag) => (
+                        <Badge
+                            key={tag}
+                            variant="secondary">
+                            {tag}
+                        </Badge>
+                    ))}
+                </div>
             </TableCell>
         </TableRow>
     )
