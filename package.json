@@ -11,10 +11,13 @@
         "start": "next start",
         "lint": "eslint --fix .",
         "format": "prettier --write .",
-        "fix": "pnpm lint && pnpm format"
+        "fix": "pnpm lint && pnpm format",
+        "typecheck": "tsc --noEmit",
+        "gql": "graphql-codegen"
     },
     "dependencies": {
         "@hookform/resolvers": "^5.2.2",
+        "@next/env": "^16.0.10",
         "@radix-ui/react-accordion": "^1.2.12",
         "@radix-ui/react-alert-dialog": "^1.1.15",
         "@radix-ui/react-aspect-ratio": "^1.1.8",
@@ -64,6 +67,10 @@
         "zod": "^4.1.13"
     },
     "devDependencies": {
+        "@graphql-codegen/cli": "^6.1.0",
+        "@graphql-codegen/introspection": "^5.0.0",
+        "@graphql-codegen/typescript": "^5.0.6",
+        "@shopify/api-codegen-preset": "^1.2.1",
         "@tailwindcss/postcss": "^4",
         "@trivago/prettier-plugin-sort-imports": "^6.0.0",
         "@types/node": "^20",
@@ -71,6 +78,7 @@
         "@types/react-dom": "^19",
         "eslint": "^9",
         "eslint-config-next": "16.0.10",
+        "graphql-config": "^5.1.5",
         "prettier": "^3.7.4",
         "prettier-plugin-tailwindcss": "^0.7.2",
         "tailwindcss": "^4",

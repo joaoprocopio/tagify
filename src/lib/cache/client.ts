@@ -1,7 +1,10 @@
 import { isNil } from "@/utils/is"
 import { QueryClient, isServer } from "@tanstack/react-query"
+import * as React from "react"
 
-function makeQueryClient() {
+let browserQueryClient: QueryClient | undefined
+
+const makeQueryClient = React.cache(() => {
     return new QueryClient({
         defaultOptions: {
             queries: {
@@ -9,9 +12,7 @@ function makeQueryClient() {
             },
         },
     })
-}
-
-let browserQueryClient: QueryClient | undefined
+})
 
 export function getQueryClient() {
     if (isServer) {

@@ -1,5 +1,6 @@
 import { defineCache, key, queryOptions } from "@/lib/cache/utils"
-import { PlatformServices, UserAgent } from "@/state/platform/services"
+import * as services from "@/state/platform/services"
+import { TUserAgent } from "@/state/platform/types"
 
 export const platformCache = defineCache("platform")({
     keys: {
@@ -11,7 +12,7 @@ export const platformCache = defineCache("platform")({
         userAgent: () =>
             queryOptions({
                 queryKey: platformCache.keys.queries.userAgent(),
-                queryFn: PlatformServices.getUserAgent,
+                queryFn: () => services.getUserAgent(),
             }),
         isMac: () =>
             queryOptions({
@@ -21,6 +22,6 @@ export const platformCache = defineCache("platform")({
     },
 })
 
-function isMac(userAgent: UserAgent) {
+function isMac(userAgent: TUserAgent): boolean {
     return userAgent.os.name === "mac"
 }

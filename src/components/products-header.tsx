@@ -27,7 +27,7 @@ export function ProductsHeader() {
     return (
         <header>
             <div className="h-layout-header border-b">
-                <div className="px-container flex h-full shrink-0 items-center gap-x-2">
+                <div className="container flex h-full shrink-0 items-center gap-x-2">
                     <SidebarTrigger
                         className="-ml-1.5 aria-hidden:hidden"
                         aria-hidden={sidebar.open}
@@ -98,7 +98,7 @@ export function ProductsHeader() {
             </div>
 
             <div className="h-layout-subheader border-b">
-                <div className="px-container flex h-full shrink-0 items-center justify-between gap-x-2">
+                <div className="container flex h-full shrink-0 items-center justify-between gap-x-2">
                     <Button
                         className="-ml-2.5"
                         size="xs"

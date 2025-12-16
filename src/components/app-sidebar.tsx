@@ -103,8 +103,6 @@ export function AppSidebar() {
                                     className="aspect-square size-full"
                                     alt="Logo"
                                     src={dengun}
-                                    width={24}
-                                    height={24}
                                 />
                             </Avatar>
 

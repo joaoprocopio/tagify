@@ -2,12 +2,9 @@
 
 import dynamic from "next/dynamic"
 
-export const CacheDevtools = dynamic(
-    async () => {
-        const { ReactQueryDevtools } =
-            await import("@tanstack/react-query-devtools/production")
+export const CacheDevtools = dynamic(async () => {
+    const { ReactQueryDevtools } =
+        await import("@tanstack/react-query-devtools/production")
 
-        return { default: ReactQueryDevtools }
-    },
-    { ssr: false },
-)
+    return { default: ReactQueryDevtools }
+})
