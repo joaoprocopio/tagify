@@ -8,7 +8,7 @@ import {
 } from "@/lib/ui/components/input-group"
 import { Kbd, KbdGroup } from "@/lib/ui/components/kbd"
 import { SidebarTrigger, useSidebar } from "@/lib/ui/components/sidebar"
-import { platformCache } from "@/state/platform/cache"
+import { platformQueries } from "@/state/platform/cache"
 import { useQuery } from "@tanstack/react-query"
 import {
     Archive,
@@ -22,7 +22,7 @@ import {
 
 export function ProductsHeader() {
     const sidebar = useSidebar()
-    const isMac = useQuery(platformCache.queries.isMac())
+    const isMac = useQuery(platformQueries.isMac())
 
     return (
         <header>

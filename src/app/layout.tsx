@@ -2,12 +2,11 @@ import "@/assets/styles/tailwind.css"
 import { AppSidebar } from "@/components/app-sidebar"
 import { getQueryClient } from "@/lib/cache/client"
 import { CacheDevtools } from "@/lib/cache/devtools"
-import CacheProvider from "@/lib/cache/provider"
+import { CacheProvider } from "@/lib/cache/provider"
 import { ThemeProvider } from "@/lib/theme/provider"
 import { SidebarInset, SidebarProvider } from "@/lib/ui/components/sidebar"
 import { Toaster } from "@/lib/ui/components/sonner"
-import { platformCache } from "@/state/platform/cache"
-import { getServerUserAgent } from "@/state/platform/server/services"
+import { platformQueries } from "@/state/platform/cache"
 import type { Metadata } from "next"
 import { Geist, Geist_Mono } from "next/font/google"
 import { headers } from "next/headers"
@@ -27,12 +26,8 @@ export const metadata: Metadata = {
 }
 
 export default async function Layout({ children }: React.PropsWithChildren) {
-    const serverHeaders = await headers()
     const client = getQueryClient()
-    await client.prefetchQuery({
-        ...platformCache.queries.userAgent(),
-        queryFn: () => getServerUserAgent(serverHeaders),
-    })
+    await client.prefetchQuery(platformQueries.serverUserAgent(await headers()))
 
     return (
         <html
