@@ -1,9 +1,9 @@
 "use client"
 
-import { getQueryClient } from "@/lib/cache/client"
+import { getQueryClient } from "@/lib/query/client"
 import { QueryClientProvider } from "@tanstack/react-query"
 
-export function CacheProvider({ children }: { children: React.ReactNode }) {
+export function QueryProvider({ children }: { children: React.ReactNode }) {
     const queryClient = getQueryClient()
 
     return (

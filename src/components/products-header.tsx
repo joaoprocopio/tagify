@@ -8,7 +8,7 @@ import {
 } from "@/lib/ui/components/input-group"
 import { Kbd, KbdGroup } from "@/lib/ui/components/kbd"
 import { SidebarTrigger, useSidebar } from "@/lib/ui/components/sidebar"
-import { platformQueries } from "@/state/platform/cache"
+import { platformQueries } from "@/state/platform/query"
 import { useQuery } from "@tanstack/react-query"
 import {
     Archive,

@@ -1,15 +1,14 @@
 import "@/assets/styles/tailwind.css"
 import { AppSidebar } from "@/components/app-sidebar"
-import { getQueryClient } from "@/lib/cache/client"
-import { CacheDevtools } from "@/lib/cache/devtools"
-import { CacheProvider } from "@/lib/cache/provider"
+import { getQueryClient } from "@/lib/query/client"
+import { QueryDevtools } from "@/lib/query/devtools"
+import { QueryProvider } from "@/lib/query/provider"
 import { ThemeProvider } from "@/lib/theme/provider"
 import { SidebarInset, SidebarProvider } from "@/lib/ui/components/sidebar"
 import { Toaster } from "@/lib/ui/components/sonner"
-import { platformQueries } from "@/state/platform/cache"
+import { platformServerQueries } from "@/state/platform/server/query"
 import type { Metadata } from "next"
 import { Geist, Geist_Mono } from "next/font/google"
-import { headers } from "next/headers"
 
 const geistSans = Geist({
     variable: "--font-sans",
@@ -27,7 +26,7 @@ export const metadata: Metadata = {
 
 export default async function Layout({ children }: React.PropsWithChildren) {
     const client = getQueryClient()
-    await client.prefetchQuery(platformQueries.serverUserAgent(await headers()))
+    await client.prefetchQuery(platformServerQueries.userAgent())
 
     return (
         <html
@@ -35,7 +34,7 @@ export default async function Layout({ children }: React.PropsWithChildren) {
             className={`${geistSans.variable} ${geistMono.variable}`}
             suppressHydrationWarning>
             <body>
-                <CacheProvider>
+                <QueryProvider>
                     <ThemeProvider
                         enableSystem
                         disableTransitionOnChange
@@ -45,10 +44,10 @@ export default async function Layout({ children }: React.PropsWithChildren) {
                             <AppSidebar />
                             <SidebarInset>{children}</SidebarInset>
                             <Toaster />
-                            <CacheDevtools />
+                            <QueryDevtools />
                         </SidebarProvider>
                     </ThemeProvider>
-                </CacheProvider>
+                </QueryProvider>
             </body>
         </html>
     )

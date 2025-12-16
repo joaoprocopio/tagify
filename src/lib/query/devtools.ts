@@ -2,7 +2,7 @@
 
 import dynamic from "next/dynamic"
 
-export const CacheDevtools = dynamic(async () => {
+export const QueryDevtools = dynamic(async () => {
     const { ReactQueryDevtools } =
         await import("@tanstack/react-query-devtools")
 

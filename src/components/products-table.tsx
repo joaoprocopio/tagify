@@ -9,7 +9,7 @@ import {
     TableHeader,
     TableRow,
 } from "@/lib/ui/components/table"
-import { productsQueries } from "@/state/products/cache"
+import { productsQueries } from "@/state/products/query"
 import { useQuery } from "@tanstack/react-query"
 
 export function ProductsTable() {
