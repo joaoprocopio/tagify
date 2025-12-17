@@ -6,6 +6,6 @@ export const SIDEBAR_WIDTH_ICON = "3rem"
 export const SIDEBAR_KEYBOARD_SHORTCUT = "b"
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function getDefaultOpen(value: any): boolean {
+export function getSidebarDefaultOpen(value: any): boolean {
     return value !== "false"
 }

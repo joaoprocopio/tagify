@@ -1,6 +1,15 @@
+export const ListProductTags = `#graphql
+query ListProductTags {
+  productTags(first: 100) {
+    edges {
+      node
+    }
+  }
+}` as const
+
 export const ListProducts = `#graphql
-query ListProducts {
-  products (first: 20) {
+query ListProducts($query: String) {
+  products(first: 20, query: $query) {
     edges {
       node {
         id

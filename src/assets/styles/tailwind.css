@@ -244,8 +244,7 @@
 
     /* Spacing */
     --spacing-container: calc(var(--spacing) * 6);
-    --spacing-header: calc(var(--spacing) * 21);
-    --spacing-half-header: calc(var(--spacing-header) / 2);
+    --spacing-header: calc(var(--spacing) * 12);
 
     /* Colors */
     --color-background: var(--background);

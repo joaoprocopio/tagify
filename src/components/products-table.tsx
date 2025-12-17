@@ -5,6 +5,7 @@ import { Badge } from "@/lib/ui/components/badge"
 import {
     Table,
     TableBody,
+    TableCaption,
     TableCell,
     TableContainer,
     TableHead,
@@ -12,42 +13,49 @@ import {
     TableRow,
 } from "@/lib/ui/components/table"
 import { productsQueries } from "@/state/products/query"
-import { isNil } from "@/utils/is"
+import { isEmpty, isNil } from "@/utils/is"
 import { capitalizeFirst } from "@/utils/str"
 import { useQuery } from "@tanstack/react-query"
 import { ImageIcon } from "lucide-react"
 import Image from "next/image"
+import { useSearchParams } from "next/navigation"
 import * as React from "react"
 import { thumbHashToDataURL } from "thumbhash"
 
 export function ProductsTable() {
-    const products = useQuery(productsQueries.list())
+    const searchParams = useSearchParams()
+    const products = useQuery(
+        productsQueries.list(Object.fromEntries(searchParams.entries())),
+    )
 
     return (
-        products.isSuccess && (
-            <TableContainer>
-                <Table>
-                    <TableHeader className="top-header bg-background/60 sticky inset-x-0 z-1 backdrop-blur">
-                        <TableRow>
-                            <TableHead className="pl-container w-10"></TableHead>
-                            <TableHead>Product</TableHead>
-                            <TableHead>Status</TableHead>
-                            <TableHead>Stock</TableHead>
-                            <TableHead className="pr-container">Tags</TableHead>
-                        </TableRow>
-                    </TableHeader>
+        <TableContainer>
+            <Table>
+                {Boolean(
+                    products.isSuccess &&
+                    isEmpty(products.data.data.products.edges),
+                ) && <TableCaption>No products were found.</TableCaption>}
 
-                    <TableBody>
-                        {products.data.data.products.edges.map((product) => (
-                            <ProductsTableRow
-                                key={product.node.id}
-                                product={product.node}
-                            />
-                        ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
-        )
+                <TableHeader className="top-header bg-background/60 sticky inset-x-0 z-1 backdrop-blur">
+                    <TableRow>
+                        <TableHead className="pl-container w-10"></TableHead>
+                        <TableHead>Product</TableHead>
+                        <TableHead>Status</TableHead>
+                        <TableHead>Stock</TableHead>
+                        <TableHead className="pr-container">Tags</TableHead>
+                    </TableRow>
+                </TableHeader>
+
+                <TableBody>
+                    {products.data?.data.products.edges.map((product) => (
+                        <ProductsTableRow
+                            key={product.node.id}
+                            product={product.node}
+                        />
+                    ))}
+                </TableBody>
+            </Table>
+        </TableContainer>
     )
 }
 
@@ -75,7 +83,7 @@ function ProductsTableRow({
     }, [thumb])
 
     return (
-        <TableRow className="h-16">
+        <TableRow>
             <TableCell className="pl-container">
                 <div className="relative size-10 overflow-hidden rounded-lg border">
                     {thumb ? (

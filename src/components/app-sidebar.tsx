@@ -118,7 +118,7 @@ export function AppSidebar() {
 
     return (
         <Sidebar>
-            <SidebarHeader className="h-half-header flex-row items-center justify-between py-0">
+            <SidebarHeader className="h-header flex-row items-center justify-between py-0">
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <SidebarMenuButton className="w-fit">

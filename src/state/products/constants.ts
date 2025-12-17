@@ -42,14 +42,15 @@ export const ProductStatusFilter = constEnum<
     },
 })
 
-export type TProductSearchParams = "status"
-
-export const ProductSearchParams = constEnum<
-    TProductSearchParams,
-    { default: typeof ProductStatusFilter.ALL }
->({
+export const ProductSearchParams = constEnum({
     status: {
         value: "status",
         default: ProductStatusFilter.ALL,
+    },
+    tag: {
+        value: "tag",
+    },
+    search: {
+        value: "search",
     },
 })

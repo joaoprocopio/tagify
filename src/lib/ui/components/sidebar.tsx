@@ -20,7 +20,7 @@ import {
 import { useIsMobile } from "@/lib/ui/hooks"
 import { cn } from "@/lib/ui/utils"
 import {
-    getDefaultOpen,
+    getSidebarDefaultOpen,
     SIDEBAR_COOKIE_MAX_AGE_IN_DAYS,
     SIDEBAR_COOKIE_NAME,
     SIDEBAR_KEYBOARD_SHORTCUT,
@@ -56,7 +56,7 @@ function useSidebar() {
 }
 
 function SidebarProvider({
-    defaultOpen = getDefaultOpen(cookie.get(SIDEBAR_COOKIE_NAME)),
+    defaultOpen = getSidebarDefaultOpen(cookie.get(SIDEBAR_COOKIE_NAME)),
     open: openProp,
     onOpenChange: setOpenProp,
     className,
