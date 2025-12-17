@@ -17,16 +17,17 @@ import {
     TooltipProvider,
     TooltipTrigger,
 } from "@/lib/ui/components/tooltip"
+import { useIsMobile } from "@/lib/ui/hooks"
+import { cn } from "@/lib/ui/utils"
 import {
+    getDefaultOpen,
     SIDEBAR_COOKIE_MAX_AGE_IN_DAYS,
     SIDEBAR_COOKIE_NAME,
     SIDEBAR_KEYBOARD_SHORTCUT,
     SIDEBAR_WIDTH,
     SIDEBAR_WIDTH_ICON,
     SIDEBAR_WIDTH_MOBILE,
-} from "@/lib/ui/constants/sidebar"
-import { useIsMobile } from "@/lib/ui/hooks"
-import { cn } from "@/lib/ui/utils"
+} from "@/lib/ui/utils/sidebar"
 import { Slot } from "@radix-ui/react-slot"
 import { cva, type VariantProps } from "class-variance-authority"
 import cookie from "js-cookie"
@@ -55,7 +56,7 @@ function useSidebar() {
 }
 
 function SidebarProvider({
-    defaultOpen = cookie.get(SIDEBAR_COOKIE_NAME) !== "false",
+    defaultOpen = getDefaultOpen(cookie.get(SIDEBAR_COOKIE_NAME)),
     open: openProp,
     onOpenChange: setOpenProp,
     className,

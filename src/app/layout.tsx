@@ -6,11 +6,11 @@ import { QueryProvider } from "@/lib/query/provider"
 import { ThemeProvider } from "@/lib/theme/provider"
 import { SidebarInset, SidebarProvider } from "@/lib/ui/components/sidebar"
 import { Toaster } from "@/lib/ui/components/sonner"
-import { SIDEBAR_COOKIE_NAME } from "@/lib/ui/constants/sidebar"
+import { getDefaultOpen, SIDEBAR_COOKIE_NAME } from "@/lib/ui/utils/sidebar"
 import { platformServerQueries } from "@/state/platform/server/query"
 import type { Metadata } from "next"
 import { Geist, Geist_Mono } from "next/font/google"
-import { cookies } from "next/headers"
+import { cookies as getServerCookies } from "next/headers"
 
 const geistSans = Geist({
     variable: "--font-sans",
@@ -30,8 +30,8 @@ export default async function Layout({ children }: React.PropsWithChildren) {
     const client = getQueryClient()
     await client.prefetchQuery(platformServerQueries.userAgent())
 
-    const readonlyCookies = await cookies()
-    const sidebarCookie = readonlyCookies.get(SIDEBAR_COOKIE_NAME)
+    const cookies = await getServerCookies()
+    const sidebarCookie = cookies.get(SIDEBAR_COOKIE_NAME)
 
     return (
         <html
@@ -46,7 +46,7 @@ export default async function Layout({ children }: React.PropsWithChildren) {
                         attribute="class"
                         defaultTheme="system">
                         <SidebarProvider
-                            defaultOpen={sidebarCookie?.value !== "false"}>
+                            defaultOpen={getDefaultOpen(sidebarCookie?.value)}>
                             <AppSidebar />
                             <SidebarInset>{children}</SidebarInset>
                             <Toaster />

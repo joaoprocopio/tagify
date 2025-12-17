@@ -27,7 +27,7 @@ export function ProductsTable() {
         products.isSuccess && (
             <TableContainer>
                 <Table>
-                    <TableHeader className="bg-background/60 top-header sticky inset-x-0 z-1 backdrop-blur">
+                    <TableHeader className="top-header bg-background/60 sticky inset-x-0 z-1 backdrop-blur">
                         <TableRow>
                             <TableHead className="pl-container w-10"></TableHead>
                             <TableHead>Product</TableHead>
