@@ -4,37 +4,33 @@ import {
     ProductStatusFilter,
 } from "@/state/products/constants"
 import { ListProducts, ListProductTags } from "@/state/products/server/graphql"
-import { TListProducts, TListProductTags } from "@/state/products/types"
-import { hasOwnProperty } from "@/utils/is"
-import { SearchParams } from "next/dist/server/request/search-params"
+import {
+    TListProducts,
+    TListProductsVariables,
+    TListProductTags,
+} from "@/state/products/types"
 
 export async function listServerProducts(
-    searchParams: SearchParams,
+    variables: TListProductsVariables,
 ): Promise<TListProducts> {
     // A sintaxe usada pra busca é encontrada aqui.
     // Isso não é um padrão especificado pelo GraphQL e sim um padrão de busca do Shopify em si.
     // https://shopify.dev/docs/api/usage/search-syntax
     let queryString = ""
 
-    for (const param in searchParams) {
-        if (!hasOwnProperty(searchParams, param)) {
-            continue
-        }
-
-        const value = searchParams[param]
-
-        if (param === ProductSearchParams.search.value) {
+    for (const [key, value] of variables.searchParams) {
+        if (key === ProductSearchParams.search.value) {
             queryString += `title:${value}*`
         }
 
         if (
-            param === ProductSearchParams.status.value &&
+            key === ProductSearchParams.status.value &&
             value !== ProductStatusFilter.ALL.value
         ) {
             queryString += `status:${value}`
         }
 
-        if (param === ProductSearchParams.tag.value) {
+        if (key === ProductSearchParams.tag.value) {
             queryString += `tag:${value}`
         }
     }

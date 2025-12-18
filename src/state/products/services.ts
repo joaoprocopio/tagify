@@ -1,11 +1,14 @@
 import { createFetcher } from "@/lib/fetcher"
-import { TListProducts, TListProductTags } from "@/state/products/types"
+import {
+    TListProducts,
+    TListProductsVariables,
+    TListProductTags,
+} from "@/state/products/types"
 import { isEmpty } from "@/utils/is"
-import { SearchParams } from "next/dist/server/request/search-params"
 
 function getApiBaseURL() {
     if (process.env.NODE_ENV === "development") {
-        return "/api"
+        return "http://localhost:3000/api"
     }
 
     return `https://${process.env.NEXT_PUBLIC_VERCEL_URL}/api`
@@ -15,13 +18,9 @@ const apiFetcher = createFetcher({
     baseURL: getApiBaseURL(),
 })
 
-export async function listProducts(searchParams: SearchParams) {
-    // TODO: criar uma útil pra rasterizar o objeto [`SearchParams`] de `Record<string, string | string[] | undefined>`
-    //       para `Record<string, string>`
-    const params = new URLSearchParams(searchParams as Record<string, string>)
-
-    const url = !isEmpty(params)
-        ? `/v1/products?${params.toString}`
+export async function listProducts(variables: TListProductsVariables) {
+    const url = !isEmpty(variables.searchParams.size)
+        ? `/v1/products?${variables.searchParams.toString()}`
         : "/v1/products"
     const json = await apiFetcher<TListProducts>(url)
 

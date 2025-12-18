@@ -1,22 +1,24 @@
 import { defineKey, defineKeys, defineQueries } from "@/lib/query/utils/define"
 import { queryOptions } from "@/lib/query/utils/options"
 import * as services from "@/state/products/services"
-import { TListProductTags } from "@/state/products/types"
-import { SearchParams } from "next/dist/server/request/search-params"
+import type {
+    TListProductsVariables,
+    TListProductTags,
+} from "@/state/products/types"
 
 export type TProductsNamespace = "products"
 
 export const productsQueryKeys = defineKeys<TProductsNamespace>()({
-    list: (searchParams: SearchParams) =>
-        defineKey("products", "list", searchParams),
+    list: (variables: TListProductsVariables) =>
+        defineKey("products", "list", variables.searchParams.toString()),
     tags: () => defineKey("products", "tags"),
 })
 
 export const productsQueries = defineQueries<TProductsNamespace>()({
-    list: (searchParams: SearchParams) =>
+    list: (variables: TListProductsVariables) =>
         queryOptions({
-            queryKey: productsQueryKeys.list(searchParams),
-            queryFn: () => services.listProducts(searchParams),
+            queryKey: productsQueryKeys.list(variables),
+            queryFn: () => services.listProducts(variables),
         }),
     tags: () =>
         queryOptions({

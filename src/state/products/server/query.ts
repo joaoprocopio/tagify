@@ -5,13 +5,13 @@ import {
     type TProductsNamespace,
 } from "@/state/products/query"
 import * as services from "@/state/products/server/services"
-import { SearchParams } from "next/dist/server/request/search-params"
+import { TListProductsVariables } from "@/state/products/types"
 
 export const productsServerQueries = defineQueries<TProductsNamespace>()({
-    list: (searchParams: SearchParams) =>
+    list: (variables: TListProductsVariables) =>
         queryOptions({
-            queryKey: productsQueryKeys.list(searchParams),
-            queryFn: () => services.listServerProducts(searchParams),
+            queryKey: productsQueryKeys.list(variables),
+            queryFn: () => services.listServerProducts(variables),
         }),
     tags: () =>
         queryOptions({

@@ -1,6 +1,7 @@
 "use client"
 
 import { Badge } from "@/lib/ui/components/badge"
+import { Skeleton } from "@/lib/ui/components/skeleton"
 import {
     Table,
     TableBody,
@@ -13,20 +14,25 @@ import {
 } from "@/lib/ui/components/table"
 import { productsQueries } from "@/state/products/query"
 import { TListProducts } from "@/state/products/types"
+import { array } from "@/utils/arr"
 import { isEmpty, isNil } from "@/utils/is"
 import { capitalizeFirst } from "@/utils/str"
-import { useQuery } from "@tanstack/react-query"
+import { useQuery, useSuspenseQuery } from "@tanstack/react-query"
+import clsx from "clsx"
 import { ImageIcon } from "lucide-react"
 import Image from "next/image"
 import { useSearchParams } from "next/navigation"
 import * as React from "react"
 import { thumbHashToDataURL } from "thumbhash"
 
+const headings = [undefined, "Product", "Status", "Stock", "Stacks"] as (
+    | string
+    | undefined
+)[]
+
 export function ProductsTable() {
     const searchParams = useSearchParams()
-    const products = useQuery(
-        productsQueries.list(Object.fromEntries(searchParams.entries())),
-    )
+    const products = useQuery(productsQueries.list({ searchParams }))
 
     return (
         <TableContainer>
@@ -38,24 +44,63 @@ export function ProductsTable() {
 
                 <TableHeader className="top-header bg-background/60 sticky inset-x-0 z-1 backdrop-blur">
                     <TableRow>
-                        <TableHead className="pl-container w-10"></TableHead>
-                        <TableHead>Product</TableHead>
-                        <TableHead>Status</TableHead>
-                        <TableHead>Stock</TableHead>
-                        <TableHead className="pr-container">Tags</TableHead>
+                        {headings.map((heading, index) => (
+                            <TableHead
+                                key={index}
+                                className={clsx({
+                                    "pl-container w-10": index === 0,
+                                    "pr-container":
+                                        index === headings.length - 1,
+                                })}>
+                                {heading}
+                            </TableHead>
+                        ))}
                     </TableRow>
                 </TableHeader>
 
-                <TableBody>
-                    {products.data?.data.products.edges.map((product) => (
-                        <ProductsTableRow
-                            key={product.node.id}
-                            product={product.node}
-                        />
-                    ))}
-                </TableBody>
+                <React.Suspense fallback={<ProductsTableBodySkeleton />}>
+                    <ProductsTableBody />
+                </React.Suspense>
             </Table>
         </TableContainer>
+    )
+}
+
+function ProductsTableBodySkeleton() {
+    return (
+        <TableBody>
+            {array(20).map((_, rowIndex) => (
+                <TableRow key={rowIndex}>
+                    {headings.map((_, cellIndex) => (
+                        <TableCell key={cellIndex}>
+                            {/* TODO: construir um skeleton mais bonitinho */}
+                            <Skeleton
+                                className={clsx({
+                                    "size-10": cellIndex === 0,
+                                    "h-7 w-full": cellIndex !== 0,
+                                })}
+                            />
+                        </TableCell>
+                    ))}
+                </TableRow>
+            ))}
+        </TableBody>
+    )
+}
+
+function ProductsTableBody() {
+    const searchParams = useSearchParams()
+    const products = useSuspenseQuery(productsQueries.list({ searchParams }))
+
+    return (
+        <TableBody>
+            {products.data?.data.products.edges.map((product) => (
+                <ProductsTableRow
+                    key={product.node.id}
+                    product={product.node}
+                />
+            ))}
+        </TableBody>
     )
 }
 
