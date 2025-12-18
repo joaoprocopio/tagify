@@ -1,8 +1,8 @@
-import type { TShopifyResponse } from "@/lib/shopify/client/types"
 import type {
     ListProducts,
     ListProductTags,
-} from "@/state/products/server/graphql"
+} from "@/lib/shopify/client/graphql"
+import type { TShopifyResponse } from "@/lib/shopify/client/types"
 import type { ReadonlyURLSearchParams } from "next/navigation"
 
 export type TListProductTagsVariables = undefined
