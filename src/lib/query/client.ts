@@ -4,11 +4,14 @@ import * as React from "react"
 
 let browserQueryClient: QueryClient | undefined
 
+export const STALE_TIME_IN_SECS = 120
+export const STALE_TIME_IN_MS = STALE_TIME_IN_SECS * 1000
+
 const makeQueryClient = React.cache(() => {
     return new QueryClient({
         defaultOptions: {
             queries: {
-                staleTime: 30 * 1000, // 30s
+                staleTime: STALE_TIME_IN_MS,
             },
         },
     })

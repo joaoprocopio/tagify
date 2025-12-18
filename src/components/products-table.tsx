@@ -1,6 +1,7 @@
 "use client"
 
 import { Badge } from "@/lib/ui/components/badge"
+import { Button } from "@/lib/ui/components/button"
 import { Skeleton } from "@/lib/ui/components/skeleton"
 import {
     Table,
@@ -19,9 +20,9 @@ import { isEmpty, isNil } from "@/utils/is"
 import { capitalizeFirst } from "@/utils/str"
 import { useQuery, useSuspenseQuery } from "@tanstack/react-query"
 import clsx from "clsx"
-import { ImageIcon } from "lucide-react"
+import { ImageIcon, X } from "lucide-react"
 import Image from "next/image"
-import { useSearchParams } from "next/navigation"
+import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import * as React from "react"
 import { thumbHashToDataURL } from "thumbhash"
 
@@ -31,16 +32,10 @@ const headings = [undefined, "Product", "Status", "Stock", "Tags"] as (
 )[]
 
 export function ProductsTable() {
-    const searchParams = useSearchParams()
-    const products = useQuery(productsQueries.list({ searchParams }))
-
     return (
         <TableContainer>
             <Table className="[&_tr>:first-child]:pl-container [&_tr>:last-child]:pr-container [&_tr>:first-child]:w-10">
-                {Boolean(
-                    products.isSuccess &&
-                    isEmpty(products.data.data.products.edges),
-                ) && <TableCaption>No products were found.</TableCaption>}
+                <ProductsTableCaption className="m-0 pt-8 pb-16" />
 
                 <TableHeader className="top-header bg-background/60 sticky inset-x-0 z-1 backdrop-blur">
                     <TableRow>
@@ -56,6 +51,70 @@ export function ProductsTable() {
             </Table>
         </TableContainer>
     )
+}
+
+function ProductsTableCaption(
+    props: React.ComponentProps<typeof TableCaption>,
+) {
+    const searchParams = useSearchParams()
+    const pathname = usePathname()
+    const router = useRouter()
+
+    const products = useQuery(productsQueries.list({ searchParams }))
+    const count = useQuery(productsQueries.count({ searchParams }))
+    const hasSearchParams = React.useMemo(
+        () => !isEmpty(searchParams.size),
+        [searchParams],
+    )
+
+    function clearFilters() {
+        router.push(pathname)
+    }
+
+    if (
+        products.isSuccess &&
+        hasSearchParams &&
+        isEmpty(products.data.data.products.edges)
+    ) {
+        return (
+            <TableCaption {...props}>
+                <div className="flex flex-col items-center justify-center gap-2.5">
+                    <span>No products were found.</span>
+                    <Button
+                        size="xs"
+                        variant="ghost"
+                        className="text-foreground!"
+                        onClick={clearFilters}>
+                        <span>Clear filters</span>
+                        <X />
+                    </Button>
+                </div>
+            </TableCaption>
+        )
+    }
+
+    if (count.isSuccess && hasSearchParams && !isEmpty(count.data)) {
+        return (
+            <TableCaption {...props}>
+                <div className="flex flex-col items-center justify-center gap-2.5">
+                    <span>
+                        Showing {count.data}{" "}
+                        {count.data > 0 ? "products" : "product"}
+                    </span>
+                    <Button
+                        size="xs"
+                        variant="ghost"
+                        className="text-foreground!"
+                        onClick={clearFilters}>
+                        <span>Clear filters</span>
+                        <X />
+                    </Button>
+                </div>
+            </TableCaption>
+        )
+    }
+
+    return undefined
 }
 
 function ProductsTableBodySkeleton() {
@@ -166,12 +225,11 @@ function ProductsTableRow({
                             product.variantsCount.count > 1,
                         ) && (
                             <span>
-                                {" "}
-                                for{" "}
+                                <span> for </span>
                                 <span className="tabular-nums">
                                     {product.variantsCount!.count}
-                                </span>{" "}
-                                variants
+                                </span>
+                                <span> variants</span>
                             </span>
                         )}
                     </>

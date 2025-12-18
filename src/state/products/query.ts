@@ -2,6 +2,7 @@ import { defineKey, defineKeys, defineQueries } from "@/lib/query/utils/define"
 import { queryOptions } from "@/lib/query/utils/options"
 import * as services from "@/state/products/services"
 import type {
+    TListProducts,
     TListProductsVariables,
     TListProductTags,
 } from "@/state/products/types"
@@ -20,6 +21,11 @@ export const productsQueries = defineQueries<TProductsNamespace>()({
             queryKey: productsQueryKeys.list(variables),
             queryFn: () => services.listProducts(variables),
         }),
+    count: (variables: TListProductsVariables) =>
+        queryOptions({
+            ...productsQueries.list(variables),
+            select: extractLength,
+        }),
     tags: () =>
         queryOptions({
             queryKey: productsQueryKeys.tags(),
@@ -27,6 +33,10 @@ export const productsQueries = defineQueries<TProductsNamespace>()({
             select: selectTags,
         }),
 })
+
+function extractLength(products: TListProducts) {
+    return products.data.products.edges.length
+}
 
 function selectTags(tags: TListProductTags) {
     return tags.data.productTags?.edges.map((tag) => tag.node)

@@ -112,7 +112,7 @@ export function ProductsHeader() {
             </div>
 
             <ProductsHeaderFilter
-                className="ml-auto h-8 w-56"
+                className="ml-auto h-8 w-64"
                 selectTag={selectTag}
                 selectSearch={selectSearch}
                 selectStatus={selectStatus}
@@ -130,7 +130,7 @@ function ProductsHeaderFilter({
     selectStatus: _selectStatus,
     selectedTag,
     selectedStatus,
-    selectedSearch,
+    selectedSearch: _selectedSearch,
     ...props
 }: React.ComponentProps<typeof InputGroup> & {
     selectTag: (tag: string) => void
@@ -140,6 +140,8 @@ function ProductsHeaderFilter({
     selectedStatus: string
     selectedSearch: string | null
 }) {
+    const [selectedSearch, setSelectedSearch] = React.useState(_selectedSearch)
+
     const [open, setOpen] = React.useState(false)
     const tags = useQuery(productsQueries.tags())
 
@@ -150,13 +152,17 @@ function ProductsHeaderFilter({
 
     const selectSearch: typeof _selectSearch = (search) => {
         _selectSearch(search)
-        setOpen(false)
+        setSelectedSearch(search)
     }
 
     const selectStatus: typeof _selectStatus = (status) => {
         _selectStatus(status)
         setOpen(false)
     }
+
+    React.useEffect(() => {
+        setSelectedSearch(_selectedSearch)
+    }, [_selectedSearch])
 
     return (
         <InputGroup {...props}>
@@ -169,7 +175,7 @@ function ProductsHeaderFilter({
             <InputGroupInput
                 className="h-full"
                 placeholder="Search..."
-                defaultValue={selectedSearch || ""}
+                value={selectedSearch || ""}
                 onChange={(e) => selectSearch(e.target.value)}
             />
 

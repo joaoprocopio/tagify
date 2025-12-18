@@ -1,0 +1,2 @@
+- colocar tanstack table na tabela
+- migrar planjemento do obsidian pro plan.md
