@@ -5,7 +5,6 @@ import { getQueryClient } from "@/lib/query/client"
 import { productsServerQueries } from "@/state/products/server/query"
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query"
 import { SearchParams } from "next/dist/server/request/search-params"
-import * as React from "react"
 
 export default async function Products(props: {
     searchParams: Promise<SearchParams>

@@ -173,7 +173,9 @@ function ProductsTableRow({
                         )}
                     </>
                 ) : (
-                    <span>Stock not tracked</span>
+                    <span className="text-muted-foreground">
+                        Stock not tracked
+                    </span>
                 )}
             </TableCell>
             <TableCell>
