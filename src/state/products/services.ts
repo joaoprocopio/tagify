@@ -1,11 +1,14 @@
-import type { TGetProductsV1Response } from "@/app/api/v1/products/route"
-import type { TListProductTagsV1Response } from "@/app/api/v1/tags/route"
 import { createFetcher } from "@/lib/fetcher"
+import { TListProducts, TListProductTags } from "@/state/products/types"
 import { isEmpty } from "@/utils/is"
 import { SearchParams } from "next/dist/server/request/search-params"
 
+console.log(process.env)
+console.log(process.env.VERCEL_URL)
+console.log(process.env.NEXT_PUBLIC_VERCEL_URL)
+
 const fetcher = createFetcher({
-    baseURL: "http://localhost:3000/api/v1",
+    baseURL: `${process.env.VERCEL_URL || process.env.NEXT_PUBLIC_VERCEL_URL}/api/v1`,
 })
 
 export async function listProducts(searchParams: SearchParams) {
@@ -13,13 +16,13 @@ export async function listProducts(searchParams: SearchParams) {
         searchParams as Record<string, string>,
     ).toString()
     const url = !isEmpty(params) ? `/products?${params}` : "/products"
-    const json = await fetcher<TGetProductsV1Response>(url)
+    const json = await fetcher<TListProducts>(url)
 
     return json
 }
 
 export async function listTags() {
-    const json = await fetcher<TListProductTagsV1Response>("/tags")
+    const json = await fetcher<TListProductTags>("/tags")
 
     return json
 }

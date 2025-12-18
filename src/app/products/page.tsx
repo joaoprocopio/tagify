@@ -11,6 +11,7 @@ export default async function Products(props: {
     const client = getQueryClient()
     const searchParams = await props.searchParams
 
+    // TODO: só fazer o prefetch, e embalar os caras em supense boundary, a árvore vai se consumida assim.
     await Promise.all([
         client.prefetchQuery(productsServerQueries.list(searchParams)),
         client.prefetchQuery(productsServerQueries.tags()),

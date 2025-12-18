@@ -1,11 +1,9 @@
 import * as services from "@/state/products/server/services"
-
-export type TListProductTagsV1Response = Awaited<
-    ReturnType<typeof services.listServerProductTags>
->
+import { TListProductTags } from "@/state/products/types"
 
 export async function GET() {
-    const products = await services.listServerProductTags()
+    const products =
+        (await services.listServerProductTags()) satisfies TListProductTags
 
     return Response.json(products)
 }

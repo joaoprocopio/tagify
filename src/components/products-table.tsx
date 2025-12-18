@@ -1,6 +1,5 @@
 "use client"
 
-import type { TGetProductsV1Response } from "@/app/api/v1/products/route"
 import { Badge } from "@/lib/ui/components/badge"
 import {
     Table,
@@ -13,6 +12,7 @@ import {
     TableRow,
 } from "@/lib/ui/components/table"
 import { productsQueries } from "@/state/products/query"
+import { TListProducts } from "@/state/products/types"
 import { isEmpty, isNil } from "@/utils/is"
 import { capitalizeFirst } from "@/utils/str"
 import { useQuery } from "@tanstack/react-query"
@@ -62,7 +62,7 @@ export function ProductsTable() {
 function ProductsTableRow({
     product,
 }: {
-    product: TGetProductsV1Response["data"]["products"]["edges"][number]["node"]
+    product: TListProducts["data"]["products"]["edges"][number]["node"]
 }) {
     const thumb = React.useMemo(
         () => product.media.nodes.at(0)?.preview?.image,

@@ -9,7 +9,7 @@ export type ListProductTagsQueryVariables = AdminTypes.Exact<{ [key: string]: ne
 export type ListProductTagsQuery = { productTags?: AdminTypes.Maybe<{ edges: Array<Pick<AdminTypes.StringEdge, 'node'>> }> };
 
 export type ListProductsQueryVariables = AdminTypes.Exact<{
-  query?: AdminTypes.InputMaybe<AdminTypes.Scalars['String']['input']>;
+  queryString?: AdminTypes.InputMaybe<AdminTypes.Scalars['String']['input']>;
 }>;
 
 
@@ -20,7 +20,7 @@ export type ListProductsQuery = { products: { edges: Array<{ node: (
 
 interface GeneratedQueryTypes {
   "#graphql\nquery ListProductTags {\n  productTags(first: 100) {\n    edges {\n      node\n    }\n  }\n}": {return: ListProductTagsQuery, variables: ListProductTagsQueryVariables},
-  "#graphql\nquery ListProducts($query: String) {\n  products(first: 20, query: $query) {\n    edges {\n      node {\n        id\n        title\n        status\n        tags\n        totalInventory\n        tracksInventory\n        productType\n        variantsCount {\n          count\n        }\n        media(first: 1) {\n          nodes {\n            preview {\n              image {\n                altText\n                url\n                width\n                height\n                thumbhash\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n}": {return: ListProductsQuery, variables: ListProductsQueryVariables},
+  "#graphql\nquery ListProducts($queryString: String) {\nproducts(first: 20, query: $queryString) {\n    edges {\n      node {\n        id\n        title\n        status\n        tags\n        totalInventory\n        tracksInventory\n        productType\n        variantsCount {\n          count\n        }\n        media(first: 1) {\n          nodes {\n            preview {\n              image {\n                altText\n                url\n                width\n                height\n                thumbhash\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n}": {return: ListProductsQuery, variables: ListProductsQueryVariables},
 }
 
 interface GeneratedMutationTypes {

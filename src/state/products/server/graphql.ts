@@ -8,8 +8,8 @@ query ListProductTags {
 }` as const
 
 export const ListProducts = `#graphql
-query ListProducts($query: String) {
-  products(first: 20, query: $query) {
+query ListProducts($queryString: String) {
+products(first: 20, query: $queryString) {
     edges {
       node {
         id
