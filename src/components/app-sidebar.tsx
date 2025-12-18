@@ -171,7 +171,9 @@ export function AppSidebar() {
                                         asChild
                                         isActive={link.href === pathname}>
                                         {!isNil(link.href) ? (
-                                            <Link href={link.href}>
+                                            <Link
+                                                href={link.href}
+                                                prefetch={false}>
                                                 {!isNil(link.icon) && (
                                                     <link.icon />
                                                 )}
