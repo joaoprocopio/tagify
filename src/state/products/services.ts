@@ -6,16 +6,8 @@ import {
 } from "@/state/products/types"
 import { isEmpty } from "@/utils/is"
 
-function getApiBaseURL() {
-    if (process.env.NODE_ENV === "development") {
-        return "http://localhost:3000/api"
-    }
-
-    return `https://${process.env.NEXT_PUBLIC_VERCEL_URL}/api`
-}
-
 const apiFetcher = createFetcher({
-    baseURL: getApiBaseURL(),
+    baseURL: process.env.NEXT_PUBLIC_API_BASE_URL,
 })
 
 export async function listProducts(variables: TListProductsVariables) {
