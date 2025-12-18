@@ -8,7 +8,7 @@ const makeQueryClient = React.cache(() => {
     return new QueryClient({
         defaultOptions: {
             queries: {
-                staleTime: 60 * 1000,
+                staleTime: 30 * 1000, // 30s
             },
         },
     })
