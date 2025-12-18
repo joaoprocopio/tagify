@@ -25,7 +25,7 @@ import { useSearchParams } from "next/navigation"
 import * as React from "react"
 import { thumbHashToDataURL } from "thumbhash"
 
-const headings = [undefined, "Product", "Status", "Stock", "Stacks"] as (
+const headings = [undefined, "Product", "Status", "Stock", "Tags"] as (
     | string
     | undefined
 )[]
@@ -36,7 +36,7 @@ export function ProductsTable() {
 
     return (
         <TableContainer>
-            <Table>
+            <Table className="[&_tr>:first-child]:pl-container [&_tr>:last-child]:pr-container [&_tr>:first-child]:w-10">
                 {Boolean(
                     products.isSuccess &&
                     isEmpty(products.data.data.products.edges),
@@ -45,15 +45,7 @@ export function ProductsTable() {
                 <TableHeader className="top-header bg-background/60 sticky inset-x-0 z-1 backdrop-blur">
                     <TableRow>
                         {headings.map((heading, index) => (
-                            <TableHead
-                                key={index}
-                                className={clsx({
-                                    "pl-container w-10": index === 0,
-                                    "pr-container":
-                                        index === headings.length - 1,
-                                })}>
-                                {heading}
-                            </TableHead>
+                            <TableHead key={index}>{heading}</TableHead>
                         ))}
                     </TableRow>
                 </TableHeader>
@@ -77,7 +69,7 @@ function ProductsTableBodySkeleton() {
                             <Skeleton
                                 className={clsx({
                                     "size-10": cellIndex === 0,
-                                    "h-7 w-full": cellIndex !== 0,
+                                    "h-6 w-full": cellIndex !== 0,
                                 })}
                             />
                         </TableCell>
@@ -129,7 +121,7 @@ function ProductsTableRow({
 
     return (
         <TableRow>
-            <TableCell className="pl-container">
+            <TableCell>
                 <div className="relative size-10 overflow-hidden rounded-lg border">
                     {thumb ? (
                         <Image
@@ -184,7 +176,7 @@ function ProductsTableRow({
                     <span>Stock not tracked</span>
                 )}
             </TableCell>
-            <TableCell className="pr-container">
+            <TableCell>
                 <div className="flex flex-wrap gap-1.5">
                     {product.tags.map((tag) => (
                         <Badge
