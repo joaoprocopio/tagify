@@ -1,6 +1,34 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+/* Black & White */
+@import "@radix-ui/colors/white-alpha.css";
+@import "@radix-ui/colors/black-alpha.css";
+
+/* Gray */
+@import "@radix-ui/colors/gray.css";
+@import "@radix-ui/colors/gray-alpha.css";
+@import "@radix-ui/colors/gray-dark.css";
+@import "@radix-ui/colors/gray-dark-alpha.css";
+
+/* Red */
+@import "@radix-ui/colors/red.css";
+@import "@radix-ui/colors/red-alpha.css";
+@import "@radix-ui/colors/red-dark.css";
+@import "@radix-ui/colors/red-dark-alpha.css";
+
+/* Green */
+@import "@radix-ui/colors/green.css";
+@import "@radix-ui/colors/green-alpha.css";
+@import "@radix-ui/colors/green-dark.css";
+@import "@radix-ui/colors/green-dark-alpha.css";
+
+/* Blue */
+@import "@radix-ui/colors/blue.css";
+@import "@radix-ui/colors/blue-alpha.css";
+@import "@radix-ui/colors/blue-dark.css";
+@import "@radix-ui/colors/blue-dark-alpha.css";
+
 @custom-variant dark (&:is(.dark *));
 
 @theme {
@@ -78,62 +106,6 @@
 }
 
 :root {
-    /* Black */
-    --black-a1: oklch(0% 0 none / 0.05);
-    --black-a2: oklch(0% 0 none / 0.1);
-    --black-a3: oklch(0% 0 none / 0.15);
-    --black-a4: oklch(0% 0 none / 0.2);
-    --black-a5: oklch(0% 0 none / 0.3);
-    --black-a6: oklch(0% 0 none / 0.4);
-    --black-a7: oklch(0% 0 none / 0.5);
-    --black-a8: oklch(0% 0 none / 0.6);
-    --black-a9: oklch(0% 0 none / 0.7);
-    --black-a10: oklch(0% 0 none / 0.8);
-    --black-a11: oklch(0% 0 none / 0.9);
-    --black-a12: oklch(0% 0 none);
-
-    /* White */
-    --white-a1: oklch(100% 0 none / 0.05);
-    --white-a2: oklch(100% 0 none / 0.1);
-    --white-a3: oklch(100% 0 none / 0.15);
-    --white-a4: oklch(100% 0 none / 0.2);
-    --white-a5: oklch(100% 0 none / 0.3);
-    --white-a6: oklch(100% 0 none / 0.4);
-    --white-a7: oklch(100% 0 none / 0.5);
-    --white-a8: oklch(100% 0 none / 0.6);
-    --white-a9: oklch(100% 0 none / 0.7);
-    --white-a10: oklch(100% 0 none / 0.8);
-    --white-a11: oklch(100% 0 none / 0.9);
-    --white-a12: oklch(100% 0 none);
-
-    /* Gray */
-    --gray-1: oklch(99.135% 0.00132 286.38);
-    --gray-2: oklch(98.268% 0.00264 286.35);
-    --gray-3: oklch(95.599% 0.00399 286.32);
-    --gray-4: oklch(93.214% 0.00536 286.3);
-    --gray-5: oklch(91.042% 0.00685 277.16);
-    --gray-6: oklch(88.735% 0.00951 286.2);
-    --gray-7: oklch(85.301% 0.01105 280.45);
-    --gray-8: oklch(79.384% 0.0156 277.79);
-    --gray-9: oklch(64.531% 0.01645 277.7);
-    --gray-10: oklch(61.075% 0.01546 272.56);
-    --gray-11: oklch(50.249% 0.01362 264.44);
-    --gray-12: oklch(24.113% 0.00969 248.23);
-
-    /* Gray Alpha */
-    --gray-a1: oklch(20.32% 0.1408 264.05 / 0.01176);
-    --gray-a2: oklch(20.32% 0.1408 264.05 / 0.02353);
-    --gray-a3: oklch(14.514% 0.10057 264.05 / 0.05882);
-    --gray-a4: oklch(13.432% 0.09308 264.05 / 0.0902);
-    --gray-a5: oklch(16.782% 0.08315 262.83 / 0.12157);
-    --gray-a6: oklch(13.795% 0.09559 264.05 / 0.14902);
-    --gray-a7: oklch(15.482% 0.08189 263.44 / 0.19608);
-    --gray-a8: oklch(16.278% 0.0816 262.95 / 0.27451);
-    --gray-a9: oklch(12.853% 0.05648 261.26 / 0.4549);
-    --gray-a10: oklch(13.379% 0.04842 257.47 / 0.49804);
-    --gray-a11: oklch(12.657% 0.03577 249.94 / 0.62353);
-    --gray-a12: oklch(10.739% 0.02107 228.56 / 0.8902);
-
     /* Semantic */
     --background: var(--white-a12);
     --foreground: var(--black-a12);
@@ -149,7 +121,11 @@
     --muted-foreground: var(--gray-10);
     --accent: var(--gray-3);
     --accent-foreground: var(--gray-11);
-    --destructive: oklch(33.899% 0.10891 16.6);
+    --destructive: var(--red-a11);
+    --success: var(--green-4);
+    --success-foreground: var(--green-11);
+    --info: var(--blue-4);
+    --info-foreground: var(--blue-11);
     --border: var(--gray-a3);
     --input: var(--gray-4);
     --ring: var(--gray-5);
@@ -169,34 +145,6 @@
 }
 
 .dark {
-    /* Gray */
-    --gray-1: oklch(17.853% 0.00407 285.98);
-    --gray-2: oklch(21.318% 0.00421 264.48);
-    --gray-3: oklch(25.214% 0.00582 271.18);
-    --gray-4: oklch(28.319% 0.00699 248.07);
-    --gray-5: oklch(31.177% 0.0083 255.56);
-    --gray-6: oklch(34.655% 0.01029 253.97);
-    --gray-7: oklch(39.928% 0.01206 252.94);
-    --gray-8: oklch(48.932% 0.01551 251.69);
-    --gray-9: oklch(53.7% 0.01532 262.34);
-    --gray-10: oklch(58.251% 0.01454 266.63);
-    --gray-11: oklch(76.856% 0.00964 258.34);
-    --gray-12: oklch(94.892% 0.00289 264.54);
-
-    /* Gray Alpha */
-    --gray-a1: oklch(0% 0 none / 0);
-    --gray-a2: oklch(94.75% 0.02935 201.91 / 0.03529);
-    --gray-a3: oklch(93.148% 0.02357 250.08 / 0.07843);
-    --gray-a4: oklch(93.047% 0.0312 225.1 / 0.11373);
-    --gray-a5: oklch(93.649% 0.03138 243.7 / 0.1451);
-    --gray-a6: oklch(93.007% 0.03315 243.96 / 0.18824);
-    --gray-a7: oklch(93.681% 0.0324 245.3 / 0.25098);
-    --gray-a8: oklch(93.681% 0.0324 245.3 / 0.36471);
-    --gray-a9: oklch(93.647% 0.0276 258.36 / 0.42745);
-    --gray-a10: oklch(94.481% 0.02325 264.46 / 0.48235);
-    --gray-a11: oklch(97.363% 0.01134 252.09 / 0.7098);
-    --gray-a12: oklch(99.385% 0.00285 264.54 / 0.93725);
-
     /* Semantic */
     --background: var(--black-a12);
     --foreground: var(--white-a12);
@@ -212,8 +160,12 @@
     --muted-foreground: var(--gray-10);
     --accent: var(--gray-5);
     --accent-foreground: var(--gray-11);
-    --destructive: oklch(66.338% 0.17739 22.851);
-    --border: var(--gray-a5);
+    --destructive: var(--red-a11);
+    --success: var(--green-a4);
+    --success-foreground: var(--green-11);
+    --info: var(--blue-a4);
+    --info-foreground: var(--blue-11);
+    --border: var(--gray-a4);
     --input: var(--gray-4);
     --ring: var(--gray-5);
     --chart-1: oklch(0.488 0.243 264.376);
@@ -262,6 +214,10 @@
     --color-accent: var(--accent);
     --color-accent-foreground: var(--accent-foreground);
     --color-destructive: var(--destructive);
+    --color-success: var(--success);
+    --color-success-foreground: var(--success-foreground);
+    --color-info: var(--info);
+    --color-info-foreground: var(--info-foreground);
     --color-border: var(--border);
     --color-input: var(--input);
     --color-ring: var(--ring);

@@ -41,6 +41,7 @@ export default async function Layout({ children }: React.PropsWithChildren) {
                     <ThemeProvider
                         enableSystem
                         disableTransitionOnChange
+                        enableColorScheme
                         attribute="class"
                         defaultTheme="system">
                         <SidebarProvider

@@ -142,7 +142,10 @@ function ProductsTableRow({
             </TableCell>
             <TableCell>{product.title}</TableCell>
             <TableCell>
-                <Badge variant="secondary">
+                <Badge
+                    variant="secondary"
+                    className="data-[status=ACTIVE]:bg-success data-[status=ACTIVE]:text-success-foreground data-[status=DRAFT]:bg-info data-[status=DRAFT]:text-info-foreground"
+                    data-status={product.status}>
                     {capitalizeFirst(product.status)}
                 </Badge>
             </TableCell>
