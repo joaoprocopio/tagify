@@ -16,24 +16,24 @@ export async function listServerProducts(
     // A sintaxe usada pra busca é encontrada aqui.
     // Isso não é um padrão especificado pelo GraphQL e sim um padrão de busca do Shopify em si.
     // https://shopify.dev/docs/api/usage/search-syntax
-    let queryString = ""
+    const queryString: string = variables.searchParams
+        .entries()
+        .reduce((accumulator, [key, value]) => {
+            switch (key) {
+                case ProductSearchParams.search.value:
+                    accumulator += `title:${value}*`
+                    break
+                case ProductSearchParams.status.value:
+                    if (value === ProductStatusFilter.ALL.value) break
+                    accumulator += `status:${value}`
+                    break
+                case ProductSearchParams.tag.value:
+                    accumulator += `tag:${value}`
+                    break
+            }
 
-    for (const [key, value] of variables.searchParams) {
-        if (key === ProductSearchParams.search.value) {
-            queryString += `title:${value}*`
-        }
-
-        if (
-            key === ProductSearchParams.status.value &&
-            value !== ProductStatusFilter.ALL.value
-        ) {
-            queryString += `status:${value}`
-        }
-
-        if (key === ProductSearchParams.tag.value) {
-            queryString += `tag:${value}`
-        }
-    }
+            return accumulator
+        }, "")
 
     const products = await shopifyClient({
         query: ListProducts,
