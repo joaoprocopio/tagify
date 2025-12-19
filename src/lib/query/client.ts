@@ -4,7 +4,7 @@ import * as React from "react"
 
 let browserQueryClient: QueryClient | undefined
 
-export const STALE_TIME_IN_SECS = 120
+export const STALE_TIME_IN_SECS = 300 // 5min = 300s
 export const STALE_TIME_IN_MS = STALE_TIME_IN_SECS * 1000
 
 const makeQueryClient = React.cache(() => {
