@@ -13,10 +13,8 @@ import {
     TableHeader,
     TableRow,
 } from "@/lib/ui/components/table"
-import { ProductSearchParams } from "@/state/products/constants"
 import { productsQueries } from "@/state/products/query"
 import type { TListProducts } from "@/state/products/types"
-import { array } from "@/utils/arr"
 import { isEmpty, isNil } from "@/utils/is"
 import { capitalizeFirst } from "@/utils/str"
 import { useQuery } from "@tanstack/react-query"
@@ -27,11 +25,152 @@ import {
     getSortedRowModel,
     useReactTable,
 } from "@tanstack/react-table"
-import { ArrowUpDown, ImageIcon, MoveDown, MoveUp, X } from "lucide-react"
+import { ImageIcon, MoveDown, MoveUp, X } from "lucide-react"
 import Image from "next/image"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import * as React from "react"
 import { thumbHashToDataURL } from "thumbhash"
+
+export function ProductsTable() {
+    const [sorting, setSorting] = React.useState<SortingState>([
+        { id: "title", desc: false },
+    ])
+
+    const searchParams = useSearchParams()
+    const products = useQuery(productsQueries.list({ searchParams }))
+    // eslint-disable-next-line react-hooks/incompatible-library
+    const table = useReactTable({
+        columns: columns,
+        data: products.data?.data.products.edges || [],
+        getCoreRowModel: getCoreRowModel(),
+        getSortedRowModel: getSortedRowModel(),
+        onSortingChange: setSorting,
+        state: {
+            sorting,
+        },
+    })
+
+    return (
+        <TableContainer>
+            <Table className="[&_tr>:first-child]:pl-container [&_tr>:last-child]:pr-container [&_tr>:first-child]:w-10">
+                <ProductsTableCaption className="m-0 pt-8 pb-16" />
+
+                <TableHeader className="top-header bg-background/60 sticky inset-x-0 z-1 backdrop-blur">
+                    {table.getHeaderGroups().map((headerGroup) => (
+                        <TableRow key={headerGroup.id}>
+                            {headerGroup.headers.map((header) => {
+                                return (
+                                    <TableHead key={header.id}>
+                                        {header.isPlaceholder
+                                            ? null
+                                            : flexRender(
+                                                  header.column.columnDef
+                                                      .header,
+                                                  header.getContext(),
+                                              )}
+                                    </TableHead>
+                                )
+                            })}
+                        </TableRow>
+                    ))}
+                </TableHeader>
+
+                <TableBody>
+                    {Boolean(!products.isLoading && products.isSuccess) ? (
+                        table.getRowModel().rows.map((row) => (
+                            <TableRow
+                                key={row.id}
+                                data-state={
+                                    row.getIsSelected() ? "selected" : undefined
+                                }>
+                                {row.getVisibleCells().map((cell) => (
+                                    <TableCell key={cell.id}>
+                                        {flexRender(
+                                            cell.column.columnDef.cell,
+                                            cell.getContext(),
+                                        )}
+                                    </TableCell>
+                                ))}
+                            </TableRow>
+                        ))
+                    ) : (
+                        <TableRow className="px-container bg-transparent!">
+                            <TableCell colSpan={columns.length}>
+                                <div className="flex items-center justify-center py-12">
+                                    <Spinner className="size-12" />
+                                </div>
+                            </TableCell>
+                        </TableRow>
+                    )}
+                </TableBody>
+            </Table>
+        </TableContainer>
+    )
+}
+
+function ProductsTableCaption(
+    props: React.ComponentProps<typeof TableCaption>,
+) {
+    const searchParams = useSearchParams()
+    const pathname = usePathname()
+    const router = useRouter()
+
+    const products = useQuery(productsQueries.list({ searchParams }))
+    const count = useQuery(productsQueries.count({ searchParams }))
+    const hasSearchParams = React.useMemo(
+        () => !isEmpty(searchParams.size),
+        [searchParams],
+    )
+
+    function clearFilters() {
+        router.push(pathname)
+    }
+
+    if (
+        products.isSuccess &&
+        hasSearchParams &&
+        isEmpty(products.data.data.products.edges)
+    ) {
+        return (
+            <TableCaption {...props}>
+                <div className="flex flex-col items-center justify-center gap-2.5">
+                    <span>No products were found.</span>
+                    <Button
+                        size="xs"
+                        variant="ghost"
+                        className="text-foreground!"
+                        onClick={clearFilters}>
+                        <span>Clear filters</span>
+                        <X />
+                    </Button>
+                </div>
+            </TableCaption>
+        )
+    }
+
+    if (count.isSuccess && hasSearchParams && !isEmpty(count.data)) {
+        return (
+            <TableCaption {...props}>
+                <div className="flex flex-col items-center justify-center gap-2.5">
+                    <span>
+                        Showing {count.data}{" "}
+                        {count.data > 1 ? "products" : "product"}
+                    </span>
+                    <Button
+                        size="xs"
+                        variant="ghost"
+                        className="text-foreground!"
+                        onClick={clearFilters}>
+                        <span>Clear filters</span>
+                        <X />
+                    </Button>
+                </div>
+            </TableCaption>
+        )
+    }
+
+    return undefined
+}
 
 export type TProductNodeValue =
     TListProducts["data"]["products"]["edges"][number]["node"]
@@ -237,143 +376,3 @@ export const columns = [
 ] as const satisfies ColumnDef<
     TListProducts["data"]["products"]["edges"][number]
 >[]
-
-export function ProductsTable() {
-    const [sorting, setSorting] = React.useState<SortingState>([
-        { id: "title", desc: false },
-    ])
-
-    const searchParams = useSearchParams()
-    const products = useQuery(productsQueries.list({ searchParams }))
-    const table = useReactTable({
-        columns: columns,
-        data: products.data?.data.products.edges || [],
-        getCoreRowModel: getCoreRowModel(),
-        getSortedRowModel: getSortedRowModel(),
-        onSortingChange: setSorting,
-        state: {
-            sorting,
-        },
-    })
-
-    return (
-        <TableContainer>
-            <Table className="[&_tr>:first-child]:pl-container [&_tr>:last-child]:pr-container [&_tr>:first-child]:w-10">
-                <ProductsTableCaption className="m-0 pt-8 pb-16" />
-
-                <TableHeader className="top-header bg-background/60 sticky inset-x-0 z-1 backdrop-blur">
-                    {table.getHeaderGroups().map((headerGroup) => (
-                        <TableRow key={headerGroup.id}>
-                            {headerGroup.headers.map((header) => {
-                                return (
-                                    <TableHead key={header.id}>
-                                        {header.isPlaceholder
-                                            ? null
-                                            : flexRender(
-                                                  header.column.columnDef
-                                                      .header,
-                                                  header.getContext(),
-                                              )}
-                                    </TableHead>
-                                )
-                            })}
-                        </TableRow>
-                    ))}
-                </TableHeader>
-
-                <TableBody>
-                    {Boolean(!products.isLoading && products.isSuccess) ? (
-                        table.getRowModel().rows.map((row) => (
-                            <TableRow
-                                key={row.id}
-                                data-state={
-                                    row.getIsSelected() ? "selected" : undefined
-                                }>
-                                {row.getVisibleCells().map((cell) => (
-                                    <TableCell key={cell.id}>
-                                        {flexRender(
-                                            cell.column.columnDef.cell,
-                                            cell.getContext(),
-                                        )}
-                                    </TableCell>
-                                ))}
-                            </TableRow>
-                        ))
-                    ) : (
-                        <TableRow className="px-container bg-transparent!">
-                            <TableCell colSpan={columns.length}>
-                                <div className="flex items-center justify-center py-12">
-                                    <Spinner className="size-12" />
-                                </div>
-                            </TableCell>
-                        </TableRow>
-                    )}
-                </TableBody>
-            </Table>
-        </TableContainer>
-    )
-}
-
-function ProductsTableCaption(
-    props: React.ComponentProps<typeof TableCaption>,
-) {
-    const searchParams = useSearchParams()
-    const pathname = usePathname()
-    const router = useRouter()
-
-    const products = useQuery(productsQueries.list({ searchParams }))
-    const count = useQuery(productsQueries.count({ searchParams }))
-    const hasSearchParams = React.useMemo(
-        () => !isEmpty(searchParams.size),
-        [searchParams],
-    )
-
-    function clearFilters() {
-        router.push(pathname)
-    }
-
-    if (
-        products.isSuccess &&
-        hasSearchParams &&
-        isEmpty(products.data.data.products.edges)
-    ) {
-        return (
-            <TableCaption {...props}>
-                <div className="flex flex-col items-center justify-center gap-2.5">
-                    <span>No products were found.</span>
-                    <Button
-                        size="xs"
-                        variant="ghost"
-                        className="text-foreground!"
-                        onClick={clearFilters}>
-                        <span>Clear filters</span>
-                        <X />
-                    </Button>
-                </div>
-            </TableCaption>
-        )
-    }
-
-    if (count.isSuccess && hasSearchParams && !isEmpty(count.data)) {
-        return (
-            <TableCaption {...props}>
-                <div className="flex flex-col items-center justify-center gap-2.5">
-                    <span>
-                        Showing {count.data}{" "}
-                        {count.data > 1 ? "products" : "product"}
-                    </span>
-                    <Button
-                        size="xs"
-                        variant="ghost"
-                        className="text-foreground!"
-                        onClick={clearFilters}>
-                        <span>Clear filters</span>
-                        <X />
-                    </Button>
-                </div>
-            </TableCaption>
-        )
-    }
-
-    return undefined
-}
