@@ -1,6 +1,9 @@
 # Desenvolvimento
 
-Plataforma web construída com Next.
+Plataforma web construída com Next.  
+O sistema operacional que uso é o Debian 13, todo esse guia foi testado somente nessa plataforma usando Linux. O guia assume que você esteja em um sistema baseado em UNIX.
+
+Caso você esteja utilizando em outro sistema operacional como MacOS ou Windows, sua contribuição com o guia de setup é bem vinda.
 
 ## Pré-requisitos
 
@@ -27,6 +30,25 @@ nvm use
 ```bash
 pnpm install
 ```
+
+### Insira as variáveis de ambiente necessárias
+
+Esse comando copia o template de variáveis de ambiente.
+
+```bash
+cp .env.example .env
+```
+
+As únicas variáveis que você precisa preencher são essas:
+
+- `SHOPIFY_ADMIN_GQL_API_URL`
+  Você só precisa substituir o slug da variável de ambiente pelo slug da sua loja Shopify.
+- `SHOPIFY_ADMIN_ACCESS_TOKEN`
+  Para conseguir um access token você precisa criar uma loja, criar um app no painel do Shopify e instalar ele na sua loja.
+
+Recomendo a [criação de uma _dev store_ no dashboard do shopify.dev](https://dev.shopify.com/dashboard/) que já vem com dados úteis para o desenvolvimento.
+
+As outras variáveis de ambiente podem ser utilizas no valor padrão.
 
 ### Suba o servidor de desenvolvimento
 
