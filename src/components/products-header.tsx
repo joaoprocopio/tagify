@@ -140,7 +140,9 @@ function ProductsHeaderFilter({
     selectedStatus: string
     selectedSearch: string | null
 }) {
-    const [selectedSearch, setSelectedSearch] = React.useState(_selectedSearch)
+    const [selectedSearch, setSelectedSearch] = React.useState<string>(
+        _selectedSearch || "",
+    )
 
     const [open, setOpen] = React.useState(false)
     const tags = useQuery(productsQueries.tags())
@@ -161,7 +163,14 @@ function ProductsHeaderFilter({
     }
 
     React.useEffect(() => {
-        setSelectedSearch(_selectedSearch)
+        // Esse effect sincroniza a limpeza dos filtros, com o estado de busca do componente.
+        if (!isNil(_selectedSearch)) {
+            return undefined
+        }
+
+        // Caso o valor que esteja vindo dos parâmetros de busca seja nulo, ou seja — vazio, nós limpamos o estado de buscar.
+        // Isso garante que ao limpar a busca o estado local esteja também sincronizado.
+        setSelectedSearch("")
     }, [_selectedSearch])
 
     return (
@@ -175,7 +184,7 @@ function ProductsHeaderFilter({
             <InputGroupInput
                 className="h-full"
                 placeholder="Search..."
-                value={selectedSearch || ""}
+                value={selectedSearch}
                 onChange={(e) => selectSearch(e.target.value)}
             />
 

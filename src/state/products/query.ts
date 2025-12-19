@@ -24,20 +24,20 @@ export const productsQueries = defineQueries<TProductsNamespace>()({
     count: (variables: TListProductsVariables) =>
         queryOptions({
             ...productsQueries.list(variables),
-            select: extractLength,
+            select: extractProductsCount,
         }),
     tags: () =>
         queryOptions({
             queryKey: productsQueryKeys.tags(),
             queryFn: (context) => services.listTags(context),
-            select: selectTags,
+            select: extractTags,
         }),
 })
 
-function extractLength(products: TListProducts) {
+function extractProductsCount(products: TListProducts) {
     return products.data.products.edges.length
 }
 
-function selectTags(tags: TListProductTags) {
+function extractTags(tags: TListProductTags) {
     return tags.data.productTags?.edges.map((tag) => tag.node)
 }
