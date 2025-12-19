@@ -13,6 +13,7 @@ import {
     TableHeader,
     TableRow,
 } from "@/lib/ui/components/table"
+import { ProductSearchParams } from "@/state/products/constants"
 import { productsQueries } from "@/state/products/query"
 import { TListProducts } from "@/state/products/types"
 import { array } from "@/utils/arr"
@@ -63,7 +64,10 @@ function ProductsTableCaption(
     const products = useQuery(productsQueries.list({ searchParams }))
     const count = useQuery(productsQueries.count({ searchParams }))
     const hasSearchParams = React.useMemo(
-        () => !isEmpty(searchParams.size),
+        () =>
+            !isEmpty(searchParams.size) &&
+            searchParams.get(ProductSearchParams.status.value) !==
+                ProductSearchParams.status.default.value,
         [searchParams],
     )
 
