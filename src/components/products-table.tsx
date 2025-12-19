@@ -52,7 +52,7 @@ export function ProductsTable() {
 
     return (
         <TableContainer>
-            <Table className="[&_tr>:first-child]:pl-container [&_tr>:last-child]:pr-container [&_tr>:first-child]:w-10">
+            <Table className="[&_tr>:first-child]:pl-container [&_tr>:last-child]:pr-container [&_tr>:nth-child(1)]:min-max-w-18 [&_tr>:nth-child(2)]:min-max-w-72 [&_tr>:nth-child(3)]:min-max-w-28 [&_tr>:nth-child(4)]:min-max-w-60 [&_tr>*]:truncate">
                 <ProductsTableCaption className="m-0 pt-8 pb-16" />
 
                 <TableHeader className="top-header bg-background sticky inset-x-0 z-1 backdrop-blur">
@@ -98,8 +98,8 @@ export function ProductsTable() {
                     ) : (
                         <TableRow className="px-container bg-transparent!">
                             <TableCell colSpan={columns.length}>
-                                <div className="flex items-center justify-center py-12">
-                                    <Spinner className="size-12" />
+                                <div className="flex items-center justify-center py-14">
+                                    <Spinner className="size-10" />
                                 </div>
                             </TableCell>
                         </TableRow>
@@ -202,7 +202,7 @@ export const columns = [
         cell: function ThumbnailCell(context) {
             const thumb = context.getValue() as TThumbnailCellValue
 
-            const hashURL = React.useMemo(() => {
+            const thumbhashDataURL = React.useMemo(() => {
                 if (isNil(thumb?.thumbhash)) {
                     return undefined
                 }
@@ -222,11 +222,11 @@ export const columns = [
                             alt={thumb.altText || "This image has no alt."}
                             width={thumb.width || 200}
                             height={thumb.height || 200}
+                            blurDataURL={thumbhashDataURL}
                             placeholder="blur"
-                            blurDataURL={hashURL}
                         />
                     ) : (
-                        <div className="absolute inset-0 flex size-full items-center justify-center">
+                        <div className="bg-card absolute inset-0 flex size-full items-center justify-center">
                             <ImageIcon className="text-muted-foreground size-4.5" />
                         </div>
                     )}

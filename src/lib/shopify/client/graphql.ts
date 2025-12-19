@@ -9,7 +9,7 @@ query ListProductTags {
 
 export const ListProducts = `#graphql
 query ListProducts($queryString: String) {
-products(first: 20, query: $queryString) {
+  products(first: 100, query: $queryString) {
     edges {
       node {
         id

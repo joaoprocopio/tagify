@@ -1,3 +1,4 @@
+import { resolveCachePolicy } from "@/lib/next/cache-policy"
 import { STALE_TIME_IN_SECS } from "@/lib/query/client"
 import { shopifyClient } from "@/lib/shopify/client"
 import { ListProducts } from "@/lib/shopify/client/graphql"
@@ -37,7 +38,7 @@ export async function GET(request: NextRequest) {
         query: ListProducts,
         variables: { queryString: queryString },
         options: {
-            cache: request.cache || "force-cache",
+            cache: resolveCachePolicy(request.cache, "force-cache"),
             next: {
                 tags: productsQueryKeys.list({
                     searchParams: request.nextUrl.searchParams,

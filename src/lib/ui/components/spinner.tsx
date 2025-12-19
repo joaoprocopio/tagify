@@ -2,7 +2,6 @@ import { cn } from "@/lib/ui/utils"
 import { array } from "@/utils/arr"
 import { Loader } from "lucide-react"
 
-const BLADES_COUNT = 8
 const BLADES_BASE_CLASS =
     "animate-blade absolute size-full inset-0 [clip-path:polygon(50%_50%,_70%_0%,_30%_0%,_50%_50%)]"
 const BLADES_CLASSES = [
@@ -15,7 +14,7 @@ const BLADES_CLASSES = [
     `${BLADES_BASE_CLASS} text-(--gray-a2) rotate-270`,
     `${BLADES_BASE_CLASS} text-(--gray-a1) rotate-315`,
 ]
-const BLADES = array(BLADES_COUNT).map((_, index) => {
+const BLADES = array(BLADES_CLASSES.length).map((_, index) => {
     return (
         <Loader
             key={index}

@@ -122,22 +122,22 @@
     /* Semantic */
     --background: var(--white-a12);
     --foreground: var(--black-a12);
-    --card: var(--gray-1);
+    --card: var(--gray-a1);
     --card-foreground: var(--gray-a12);
-    --popover: var(--gray-1);
-    --popover-foreground: var(--foreground);
+    --popover: var(--gray-2);
+    --popover-foreground: var(--gray-12);
     --primary: var(--gray-12);
-    --primary-foreground: var(--foreground);
+    --primary-foreground: var(--black-a12);
     --secondary: var(--gray-3);
     --secondary-foreground: var(--gray-12);
     --muted: var(--gray-a3);
     --muted-foreground: var(--gray-10);
-    --accent: var(--gray-3);
+    --accent: var(--gray-5);
     --accent-foreground: var(--gray-11);
     --destructive: var(--red-a11);
-    --success: var(--green-4);
+    --success: var(--green-a3);
     --success-foreground: var(--green-11);
-    --info: var(--blue-4);
+    --info: var(--blue-a3);
     --info-foreground: var(--blue-11);
     --border: var(--gray-a4);
     --input: var(--gray-4);
@@ -147,12 +147,12 @@
     --chart-3: oklch(0.398 0.07 227.392);
     --chart-4: oklch(0.828 0.189 84.429);
     --chart-5: oklch(0.769 0.188 70.08);
-    --sidebar: var(--gray-a2);
-    --sidebar-foreground: var(--gray-11);
+    --sidebar: var(--gray-2);
+    --sidebar-foreground: var(--gray-a12);
     --sidebar-primary: var(--gray-9);
     --sidebar-primary-foreground: var(--foreground);
-    --sidebar-accent: var(--gray-a3);
-    --sidebar-accent-foreground: var(--gray-a12);
+    --sidebar-accent: var(--gray-4);
+    --sidebar-accent-foreground: var(--gray-a10);
     --sidebar-border: var(--gray-a4);
     --sidebar-ring: var(--gray-5);
 }
@@ -167,16 +167,16 @@
     --popover-foreground: var(--gray-12);
     --primary: var(--gray-12);
     --primary-foreground: var(--black-a12);
-    --secondary: var(--gray-a5);
+    --secondary: var(--gray-a4);
     --secondary-foreground: var(--gray-12);
     --muted: var(--gray-a3);
     --muted-foreground: var(--gray-10);
     --accent: var(--gray-5);
     --accent-foreground: var(--gray-11);
     --destructive: var(--red-a11);
-    --success: var(--green-a4);
+    --success: var(--green-a3);
     --success-foreground: var(--green-11);
-    --info: var(--blue-a4);
+    --info: var(--blue-a3);
     --info-foreground: var(--blue-11);
     --border: var(--gray-a4);
     --input: var(--gray-4);
@@ -188,7 +188,7 @@
     --chart-5: oklch(0.645 0.246 16.439);
     --sidebar: var(--gray-2);
     --sidebar-foreground: var(--gray-a12);
-    --sidebar-primary: var(--primary-9);
+    --sidebar-primary: var(--gray-9);
     --sidebar-primary-foreground: var(--foreground);
     --sidebar-accent: var(--gray-4);
     --sidebar-accent-foreground: var(--gray-a10);
@@ -210,6 +210,7 @@
     /* Spacing */
     --spacing-container: calc(var(--spacing) * 6);
     --spacing-header: calc(var(--spacing) * 12);
+    --spacing-18: calc(var(--spacing) * 18);
 
     /* Colors */
     --color-background: var(--background);
@@ -286,4 +287,15 @@
 
 @utility container {
     @apply px-container mx-auto;
+}
+
+/* Theme spacing-based */
+@utility min-max-w-* {
+    width: --value([*]);
+    min-width: --value([*]);
+    max-width: --value([*]);
+
+    width: --spacing(--value(integer));
+    min-width: --spacing(--value(integer));
+    max-width: --spacing(--value(integer));
 }

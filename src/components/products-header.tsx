@@ -192,7 +192,7 @@ function ProductsHeaderFilter({
                         </InputGroupButton>
                     </DropdownMenuTrigger>
 
-                    <DropdownMenuContent>
+                    <DropdownMenuContent align="end">
                         <DropdownMenuGroup>
                             <DropdownMenuSub>
                                 <DropdownMenuSubTrigger>
@@ -203,7 +203,7 @@ function ProductsHeaderFilter({
                                     <Command>
                                         <CommandInput
                                             placeholder="Filter..."
-                                            autoFocus={true}
+                                            autoFocus
                                         />
                                         <CommandList>
                                             <CommandEmpty>
