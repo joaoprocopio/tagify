@@ -85,7 +85,7 @@ export function ProductsHeader() {
     })
 
     return (
-        <header className="bg-background/60 h-header px-container sticky inset-x-0 top-0 z-1 flex shrink-0 items-center gap-x-2 border-b backdrop-blur">
+        <header className="bg-background h-header px-container sticky inset-x-0 top-0 z-1 flex shrink-0 items-center gap-x-2 border-b backdrop-blur">
             <SidebarTrigger
                 className="-ml-1.5 aria-hidden:hidden"
                 aria-hidden={sidebar.open}
@@ -105,7 +105,7 @@ export function ProductsHeader() {
                                 : "outline"
                         }
                         onClick={() => selectStatus(status.value)}>
-                        <status.icon />
+                        <status.icon className="text-muted-foreground" />
                         <span>{status.label}</span>
                     </Button>
                 ))}

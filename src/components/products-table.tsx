@@ -55,9 +55,11 @@ export function ProductsTable() {
             <Table className="[&_tr>:first-child]:pl-container [&_tr>:last-child]:pr-container [&_tr>:first-child]:w-10">
                 <ProductsTableCaption className="m-0 pt-8 pb-16" />
 
-                <TableHeader className="top-header bg-background/60 sticky inset-x-0 z-1 backdrop-blur">
+                <TableHeader className="top-header bg-background sticky inset-x-0 z-1 backdrop-blur">
                     {table.getHeaderGroups().map((headerGroup) => (
-                        <TableRow key={headerGroup.id}>
+                        <TableRow
+                            key={headerGroup.id}
+                            className="hover:bg-[unset]">
                             {headerGroup.headers.map((header) => {
                                 return (
                                     <TableHead key={header.id}>

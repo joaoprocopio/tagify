@@ -37,13 +37,14 @@ export async function GET(request: NextRequest) {
         query: ListProducts,
         variables: { queryString: queryString },
         options: {
-            cache: "force-cache",
+            cache: request.cache || "force-cache",
             next: {
                 tags: productsQueryKeys.list({
                     searchParams: request.nextUrl.searchParams,
                 }) as unknown as string[],
                 revalidate: STALE_TIME_IN_SECS,
             },
+            signal: request.signal,
         },
     })) satisfies TListProducts
 

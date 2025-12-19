@@ -19,7 +19,7 @@ export const productsQueries = defineQueries<TProductsNamespace>()({
     list: (variables: TListProductsVariables) =>
         queryOptions({
             queryKey: productsQueryKeys.list(variables),
-            queryFn: () => services.listProducts(variables),
+            queryFn: (context) => services.listProducts(variables, context),
         }),
     count: (variables: TListProductsVariables) =>
         queryOptions({
@@ -29,7 +29,7 @@ export const productsQueries = defineQueries<TProductsNamespace>()({
     tags: () =>
         queryOptions({
             queryKey: productsQueryKeys.tags(),
-            queryFn: () => services.listTags(),
+            queryFn: (context) => services.listTags(context),
             select: selectTags,
         }),
 })

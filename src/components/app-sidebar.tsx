@@ -134,7 +134,7 @@ export function AppSidebar() {
                                 Dengun
                             </span>
 
-                            <ChevronDown className="ml-auto size-4" />
+                            <ChevronDown className="text-muted-foreground ml-auto size-4" />
                         </SidebarMenuButton>
                     </DropdownMenuTrigger>
 
@@ -175,7 +175,7 @@ export function AppSidebar() {
                                                 href={link.href}
                                                 prefetch={false}>
                                                 {!isNil(link.icon) && (
-                                                    <link.icon />
+                                                    <link.icon className="text-muted-foreground" />
                                                 )}
                                                 <span>{link.label}</span>
                                             </Link>

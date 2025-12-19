@@ -159,11 +159,11 @@
 
 .dark {
     /* Semantic */
-    --background: var(--black-a2);
+    --background: var(--gray-a1);
     --foreground: var(--white-a12);
     --card: var(--gray-a2);
     --card-foreground: var(--gray-a12);
-    --popover: var(--gray-2);
+    --popover: var(--gray-3);
     --popover-foreground: var(--gray-12);
     --primary: var(--gray-12);
     --primary-foreground: var(--black-a12);
@@ -186,12 +186,12 @@
     --chart-3: oklch(0.769 0.188 70.08);
     --chart-4: oklch(0.627 0.265 303.9);
     --chart-5: oklch(0.645 0.246 16.439);
-    --sidebar: var(--black-a9);
-    --sidebar-foreground: var(--gray-a11);
+    --sidebar: var(--gray-2);
+    --sidebar-foreground: var(--gray-a12);
     --sidebar-primary: var(--primary-9);
     --sidebar-primary-foreground: var(--foreground);
-    --sidebar-accent: var(--gray-a3);
-    --sidebar-accent-foreground: var(--gray-a12);
+    --sidebar-accent: var(--gray-4);
+    --sidebar-accent-foreground: var(--gray-a10);
     --sidebar-border: var(--gray-a4);
     --sidebar-ring: var(--gray-5);
 }
