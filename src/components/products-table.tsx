@@ -2,6 +2,7 @@
 
 import { Badge } from "@/lib/ui/components/badge"
 import { Button } from "@/lib/ui/components/button"
+import { Spinner } from "@/lib/ui/components/spinner"
 import {
     Table,
     TableBody,
@@ -281,7 +282,7 @@ export function ProductsTable() {
                 </TableHeader>
 
                 <TableBody>
-                    {!isEmpty(table.getRowModel().rows) &&
+                    {Boolean(!products.isLoading && products.isSuccess) ? (
                         table.getRowModel().rows.map((row) => (
                             <TableRow
                                 key={row.id}
@@ -297,7 +298,16 @@ export function ProductsTable() {
                                     </TableCell>
                                 ))}
                             </TableRow>
-                        ))}
+                        ))
+                    ) : (
+                        <TableRow className="px-container bg-transparent!">
+                            <TableCell colSpan={columns.length}>
+                                <div className="flex items-center justify-center py-12">
+                                    <Spinner className="size-12" />
+                                </div>
+                            </TableCell>
+                        </TableRow>
+                    )}
                 </TableBody>
             </Table>
         </TableContainer>
